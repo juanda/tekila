@@ -16,7 +16,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import jazzyweb.tekila.model.MySqliteHelper;
+import jazzyweb.tekila.model.LoadTestData;
+import jazzyweb.tekila.model.TekilaSqliteHelper;
 
 
 public class Main extends Activity {
@@ -40,23 +41,12 @@ public class Main extends Activity {
         tabBar.addTab(tabBar.newTab().setText("Deudas").setTabListener(new TabListener(deudasFragment)));
         tabBar.addTab(tabBar.newTab().setText("Resumen").setTabListener(new TabListener(resumenFragment)));
 
-        MySqliteHelper dbHelper = new MySqliteHelper(this);
-
         try {
-            SQLiteDatabase database = dbHelper.getWritableDatabase();
-            if (!database.isReadOnly())
-            {
-                // Enable foreign key constraints
-                database.execSQL("PRAGMA foreign_keys=ON;");
-            }
-            ContentValues values = new ContentValues();
-            values.put("nombre", "dame tekila");
-
-            long insertId = database.insert(MySqliteHelper.TABLE_GRUPOS, null, values);
+            LoadTestData.load(this);
 
             Toast.makeText(this, "dentro", Toast.LENGTH_LONG).show();
         }catch (SQLiteException e){
-            Log.w(MySqliteHelper.class.getName(), e.getMessage());
+            Log.w(TekilaSqliteHelper.class.getName(), e.getMessage());
             Toast.makeText(this, "Error abriendo base de datos", Toast.LENGTH_LONG).show();
         }
     }
