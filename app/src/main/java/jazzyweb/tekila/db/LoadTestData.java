@@ -45,9 +45,7 @@ public class LoadTestData{
 
         try {
             jsonDataTest = StreamReader.convertStreamToString(is);
-
-            Log.i("JSONDATATEST", jsonDataTest);
-
+            
             dbManager = new DataBaseManager(context);
             dbManager.open();
         }catch (IOException e){
@@ -64,9 +62,6 @@ public class LoadTestData{
             usuarios = createUsuarios(json);
             compras = createCompras(json);
 
-            Log.i("LOAD TEST", "OK");
-//            usuarios = createUsuarios(reader);
-//            compras = createCompras(reader);
         }catch (JSONException e){
             Log.i(this.getClass().getName(), "Error leyendo el json con los datos de prueba." + jsonDataTest);
             Log.i(this.getClass().getName(), e.getMessage());
