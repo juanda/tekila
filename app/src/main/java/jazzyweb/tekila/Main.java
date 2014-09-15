@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.db.LoadTestData;
 import jazzyweb.tekila.db.TekilaSqliteHelper;
 
@@ -28,6 +29,8 @@ public class Main extends Activity {
         final ActionBar tabBar = getActionBar();
         tabBar.setNavigationMode(tabBar.NAVIGATION_MODE_TABS);
 
+        loadDatabase();
+
         ArrayList<String> compras = new ArrayList<String>();
         compras.add("Hola");
         compras.add("Adios");
@@ -39,20 +42,6 @@ public class Main extends Activity {
         tabBar.addTab(tabBar.newTab().setText("Deudas").setTabListener(new TabListener(deudasFragment)));
         tabBar.addTab(tabBar.newTab().setText("Resumen").setTabListener(new TabListener(resumenFragment)));
 
-        try {
-            this.deleteDatabase(TekilaSqliteHelper.DATABASE_NAME);
-            LoadTestData ltd = new LoadTestData("datatest.json",this);
-
-            ltd.load();
-
-            Toast.makeText(this, "dentro", Toast.LENGTH_LONG).show();
-        }catch (SQLiteException e){
-            Log.w("TEKILA_DB", e.getMessage());
-            Toast.makeText(this, "Error abriendo base de datos", Toast.LENGTH_LONG).show();
-        }catch (IOException e){
-            Log.w("TEKILA_FILE", e.getMessage());
-            Toast.makeText(this, "Error leyendo el archivo de datos de prueba", Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
@@ -95,6 +84,33 @@ public class Main extends Activity {
         public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
             if (null != mFragment)
                 ft.remove(mFragment);
+        }
+    }
+
+    protected void loadDatabase(){
+        Boolean load_data_test = getResources().getBoolean(R.bool.load_data_test);
+        if(load_data_test){
+            loadDataTest();
+        }else{
+            DataBaseManager dbManager = new DataBaseManager(this);
+            dbManager.open();
+        }
+    }
+
+    protected void loadDataTest(){
+        try {
+            this.deleteDatabase(TekilaSqliteHelper.DATABASE_NAME);
+            LoadTestData ltd = new LoadTestData("datatest.json",this);
+
+            ltd.load();
+
+            Toast.makeText(this, "dentro", Toast.LENGTH_LONG).show();
+        }catch (SQLiteException e){
+            Log.w("TEKILA_DB", e.getMessage());
+            Toast.makeText(this, "Error abriendo base de datos", Toast.LENGTH_LONG).show();
+        }catch (IOException e){
+            Log.w("TEKILA_FILE", e.getMessage());
+            Toast.makeText(this, "Error leyendo el archivo de datos de prueba", Toast.LENGTH_LONG).show();
         }
     }
 }
