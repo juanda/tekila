@@ -1,11 +1,11 @@
-package jazzyweb.tekila.model;
+package jazzyweb.tekila.db;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
-import java.sql.SQLException;
+import jazzyweb.tekila.db.TekilaSqliteHelper;
 
 public class DataBaseManager {
     private TekilaSqliteHelper dbHelper;
@@ -124,10 +124,12 @@ public class DataBaseManager {
 
     // COMPRAS
 
-    public Long createCompra(String nombre, float cantidad){
+    public Long createCompra(String nombre, Double cantidad, Long idGrupo, Long datetime){
         ContentValues values = new ContentValues();
         values.put("nombre", nombre);
         values.put("cantidad", cantidad);
+        values.put("id_grupo", idGrupo);
+        values.put("datetime", datetime);
 
         Long id = database.insert(TekilaSqliteHelper.TABLE_COMPRAS, null, values);
 
@@ -142,11 +144,13 @@ public class DataBaseManager {
         return deletedRows;
     }
 
-    public  int updateCompra(Long id, String nombre, float cantidad){
+    public  int updateCompra(Long id, String nombre, float cantidad, Long idGrupo, Long datetime){
         String[] ids = {Long.toString(id)};
         ContentValues values = new ContentValues();
         values.put("nombre", nombre);
         values.put("cantidad", cantidad);
+        values.put("id_grupo", idGrupo);
+        values.put("datetime", datetime);
 
         int updatedRows = database.update(TekilaSqliteHelper.TABLE_COMPRAS,values,
                 TekilaSqliteHelper.COLUMN_IDCOMPRA + " = ?", ids);
@@ -157,7 +161,7 @@ public class DataBaseManager {
 
     // PAGOS
 
-    public Long createPago(float cantidad, Long idUsuario, Long idCompra){
+    public Long createPago(Double cantidad, Long idUsuario, Long idCompra){
         ContentValues values = new ContentValues();
         values.put("cantidad", cantidad);
         values.put("id_usuario", idUsuario);
@@ -177,7 +181,7 @@ public class DataBaseManager {
     }
 
 
-    public int updatePago(Long id, float cantidad, Long idUsuario, Long idCompra){
+    public int updatePago(Long id, Double cantidad, Long idUsuario, Long idCompra){
         String[] ids = {Long.toString(id)};
         ContentValues values = new ContentValues();
         values.put("cantidad", cantidad);
@@ -191,7 +195,7 @@ public class DataBaseManager {
 
     // PARTICIPACIONES
 
-    public Long createParticipacion(float porcentaje, Long idUsuario, Long idCompra){
+    public Long createParticipacion(Double porcentaje, Long idUsuario, Long idCompra){
         ContentValues values = new ContentValues();
         values.put("porcentaje", porcentaje);
         values.put("id_usuario", idUsuario);
@@ -211,7 +215,7 @@ public class DataBaseManager {
     }
 
 
-    public int updateParticipacion(Long id, float porcentaje, Long idUsuario, Long idCompra){
+    public int updateParticipacion(Long id, Double porcentaje, Long idUsuario, Long idCompra){
         String[] ids = {Long.toString(id)};
         ContentValues values = new ContentValues();
         values.put("cantidad", porcentaje);

@@ -1,0 +1,91 @@
+{
+    "grupos": [
+        {
+            "id": 1,
+            "nombre": "tekila"
+        },
+        {
+            "id": 2,
+            "nombre": "whiskey"
+        }
+    ],
+    "usuarios": [
+        {
+            "id": 1,
+            "nombre": "juanda",
+            "grupos": [1, 2]
+        },
+        {
+            "id": 2,
+            "nombre": "paula",
+            "grupos": [1, 2]
+        },
+        {
+            "id": 3,
+            "nombre": "ruth",
+            "grupos": [1]
+        },
+        {
+            "id": 4,
+            "nombre": "carolina",
+            "grupos": [1]
+        }
+    ],
+
+    "compras": [
+        {
+            "id": 1,
+            "grupo": 1,
+            "nombre": "tabaco",
+            "cantidad": 40.76,
+            "datetime": "10/10/2014 10:58:01",
+            "participantes": {"1": 33.333, "3": 33.333, "4": 33.333},
+            "pagos": {"1": 40.76}
+        },
+        {
+            "id": 2,
+            "grupo": 1,
+            "nombre": "supermercado",
+            "cantidad": 250.0,
+            "datetime": "10/10/2014 13:18:07",
+            "participantes": {"1": 25.0, "2": 25.0, "3": 25.0, "4": 25.0},
+            "pagos": {"2": 200.0, "3": 50.0}
+        },
+        {
+            "id": 3,
+            "grupo": 1,
+            "nombre": "entradas teatro",
+            "cantidad": 78.90,
+            "datetime": "11/10/2014 13:25:01",
+            "participantes": {"1": 50.0, "4": 50.0},
+            "pagos": {"1": 78.9}
+        },
+        {
+            "id": 4,
+            "grupo": 2,
+            "nombre": "tabaco",
+            "cantidad": 24.0,
+            "datetime": "11/10/2014 14:45:01",
+            "participantes": {"1": 100.0},
+            "pagos": {"2": 24.0}
+        },
+        {
+            "id": 5,
+            "grupo": 2,
+            "nombre": "supermercado",
+            "cantidad": 250.0,
+            "datetime": "15/10/2014 15:58:01",
+            "participantes": {"1": 50.0,"2": 50.0},
+            "pagos": {"1": 250.0}
+        },
+        {
+            "id": 6,
+            "grupo": 2,
+            "nombre": "entradas cine",
+            "cantidad": 22.0,
+            "datetime": "15/10/2014 18:00:01",
+            "participantes": {"1": 50.0, "2": 50.0},
+            "pagos": {"2": 22.0}
+        }
+    ]
+}

@@ -4,8 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,11 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
-import jazzyweb.tekila.model.LoadTestData;
-import jazzyweb.tekila.model.TekilaSqliteHelper;
+import jazzyweb.tekila.db.LoadTestData;
+import jazzyweb.tekila.db.TekilaSqliteHelper;
 
 
 public class Main extends Activity {
@@ -42,15 +40,20 @@ public class Main extends Activity {
         tabBar.addTab(tabBar.newTab().setText("Resumen").setTabListener(new TabListener(resumenFragment)));
 
         try {
-            LoadTestData.load(this);
+            this.deleteDatabase(TekilaSqliteHelper.DATABASE_NAME);
+            LoadTestData ltd = new LoadTestData("datatest.json",this);
+
+            ltd.load();
 
             Toast.makeText(this, "dentro", Toast.LENGTH_LONG).show();
         }catch (SQLiteException e){
-            Log.w(TekilaSqliteHelper.class.getName(), e.getMessage());
+            Log.w("TEKILA_DB", e.getMessage());
             Toast.makeText(this, "Error abriendo base de datos", Toast.LENGTH_LONG).show();
+        }catch (IOException e){
+            Log.w("TEKILA_FILE", e.getMessage());
+            Toast.makeText(this, "Error leyendo el archivo de datos de prueba", Toast.LENGTH_LONG).show();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

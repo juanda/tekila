@@ -1,4 +1,4 @@
-package jazzyweb.tekila.model;
+package jazzyweb.tekila.db;
 
 import android.content.Context;
 import android.database.DatabaseUtils;
@@ -29,9 +29,9 @@ public class TekilaSqliteHelper extends SQLiteOpenHelper {
     public static final String TABLE_PARTICIPACIONES = "participaciones";
     public static final String TABLE_COMPRAS = "compras";
 
-    private static final String DATABASE_FILE = "tekila.sql";
-    private static final String DATABASE_NAME = "tekila.db";
-    private static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_FILE = "tekila.sql";
+    public static final String DATABASE_NAME = "tekila.db";
+    private static final int DATABASE_VERSION = 4;
     private static final int BUFFER_SIZE = 2048;
     private static SQLiteDatabase db;
     private static TekilaSqliteHelper instance;
@@ -58,6 +58,7 @@ public class TekilaSqliteHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.beginTransaction();
 
         try {
@@ -82,6 +83,7 @@ public class TekilaSqliteHelper extends SQLiteOpenHelper {
      */
     private void readDatabaseScript(SQLiteDatabase db) throws IOException, SQLException {
         InputStream script = context.getAssets().open(DATABASE_FILE);
+
         byte[] buffer = new byte[BUFFER_SIZE];
 
         for (int byteRead = script.read(); byteRead != -1; byteRead = script.read()) {
@@ -111,6 +113,12 @@ public class TekilaSqliteHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USUARIO_GRUPO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GRUPOS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USUARIOS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PARTICIPACIONES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PAGOS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMPRAS);
         onCreate(db);
     }
 
