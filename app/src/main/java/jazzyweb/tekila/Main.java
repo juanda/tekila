@@ -31,10 +31,8 @@ public class Main extends Activity {
 
         loadDatabase();
 
-        ArrayList<String> compras = new ArrayList<String>();
-        compras.add("Hola");
-        compras.add("Adios");
-        ComprasFragment comprasFragment = ComprasFragment.newInstance(compras);
+        Long idGrupo = Long.valueOf(1);
+        ComprasFragment comprasFragment = ComprasFragment.newInstance(idGrupo);
         DeudasFragment deudasFragment = DeudasFragment.newInstance("kuku", "kaka");
         ResumenFragment resumenFragment = ResumenFragment.newInstance("kuku", "kaka");
 

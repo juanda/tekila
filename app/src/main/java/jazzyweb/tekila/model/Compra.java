@@ -1,10 +1,14 @@
 package jazzyweb.tekila.model;
 
+import java.util.List;
+
 public class Compra {
     private Long id;
     private String concepto;
     private Double cantidad;
     private Grupo grupo;
+    private List<Participacion> participaciones;
+    private List<Pago> pagos;
 
     public Long getId() {
         return id;
@@ -32,5 +36,21 @@ public class Compra {
 
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
+    }
+
+    public List<Participacion> getParticipaciones() {
+        return participaciones;
+    }
+
+    public void setParticipaciones(List<Participacion> participaciones) {
+        this.participaciones = participaciones;
+    }
+
+    public List<Pago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(List<Pago> pagos) {
+        this.pagos = pagos;
     }
 }

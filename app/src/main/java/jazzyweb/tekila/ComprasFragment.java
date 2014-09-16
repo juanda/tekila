@@ -11,6 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import jazzyweb.tekila.db.DataBaseManager;
+import jazzyweb.tekila.model.Compra;
 
 
 /**
@@ -25,10 +29,12 @@ import java.util.ArrayList;
 public class ComprasFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "compras";
+    private static final String ARG_PARAM1 = "idGrupo";
 
     // TODO: Rename and change types of parameters
-    private ArrayList<String> compras;
+    private Long idGrupo;
+    private DataBaseManager dataBaseManager;
+    private List<Compra> compras;
 
     private OnFragmentInteractionListener mListener;
 
@@ -36,17 +42,24 @@ public class ComprasFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param compras Parameter 1.
+     * @param idGrupo Parameter 1.
      * @return A new instance of fragment ComprasFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ComprasFragment newInstance(ArrayList<String> compras) {
+    public static ComprasFragment newInstance(Long idGrupo) {
         ComprasFragment fragment = new ComprasFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList("compras", compras);
+        args.putLong(ARG_PARAM1, idGrupo);
         fragment.setArguments(args);
         return fragment;
     }
+
+    public void onActivityCreated(android.os.Bundle savedInstanceState){
+        dataBaseManager = new DataBaseManager(getActivity());
+
+        compras = dataBaseManager.getCompras(idGrupo);
+    }
+
     public ComprasFragment() {
         // Required empty public constructor
     }
@@ -55,8 +68,7 @@ public class ComprasFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            compras = getArguments().getStringArrayList("compras");
-
+            idGrupo = getArguments().getLong(ARG_PARAM1);
         }
     }
 
@@ -67,6 +79,8 @@ public class ComprasFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_compras, container, false);
 
         ListView lstCompras = (ListView) rootView.findViewById(R.id.lstCompras);
+
+        ComprasAdapter adapter = new ComprasAdapter(getActivity(), compras);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),R.layout.item_compra, compras);
 
