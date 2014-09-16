@@ -4,9 +4,10 @@ import java.util.List;
 
 public class Compra {
     private Long id;
-    private String concepto;
+    private String nombre;
     private Double cantidad;
     private Grupo grupo;
+    private Long datetime;
     private List<Participacion> participaciones;
     private List<Pago> pagos;
 
@@ -14,12 +15,12 @@ public class Compra {
         return id;
     }
 
-    public String getConcepto() {
-        return concepto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setConcepto(String concepto) {
-        this.concepto = concepto;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public Double getCantidad() {
@@ -32,6 +33,14 @@ public class Compra {
 
     public Grupo getGrupo() {
         return grupo;
+    }
+
+    public Long getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Long datetime) {
+        this.datetime = datetime;
     }
 
     public void setGrupo(Grupo grupo) {

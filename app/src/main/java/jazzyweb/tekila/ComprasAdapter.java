@@ -8,8 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.model.Compra;
@@ -18,8 +22,14 @@ import jazzyweb.tekila.model.Participacion;
 
 public class ComprasAdapter extends ArrayAdapter<Compra>{
 
-    public ComprasAdapter(Context context, ArrayList<Compra> compras) {
-        super(context, R.layout.item_compra, compras);
+    private int numParticipantes;
+
+    private static final String TXT_TODOS = "Todos";
+    private static final String TXT_CURRENCY = "€";
+
+    public ComprasAdapter(Context context, int resource, List<Compra> compras, int numP) {
+        super(context, resource, compras);
+        numParticipantes = numP;
     }
 
     @Override
@@ -49,30 +59,54 @@ public class ComprasAdapter extends ArrayAdapter<Compra>{
     }
 
     private String getPagadores(Compra compra){
-
+        String texto = "";
         List<Pago> pagos = compra.getPagos();
 
+        int pagosSize = pagos.size();
+        for(int i = 0; i < pagosSize ; i++){
+            texto += pagos.get(i).getUsuario().getNombre();
+            texto += (i == pagosSize - 1)? "" : ", ";
+        }
 
-        return "";
+        return texto;
     }
 
     private String getCantidad(Compra compra){
+        String texto = "";
+        texto = TXT_CURRENCY + " " + String.valueOf(compra.getCantidad());
 
-        return "";
+        return texto;
     }
 
     private String getConcepto(Compra compra){
+        String texto = compra.getNombre();
 
-        return "";
+        return texto;
     }
 
     private String getParticipantes(Compra compra){
+        String text = TXT_TODOS;
 
-        return "";
+        List<Participacion> participaciones = compra.getParticipaciones();
+
+        int participacionesSize = participaciones.size();
+        if(participacionesSize != numParticipantes){
+            text = "";
+            for(int i = 0; i < participaciones.size(); i++){
+                text += participaciones.get(i).getUsuario().getNombre();
+                text += (i == participacionesSize - 1)? "" : ", ";
+            }
+        }
+        return text;
     }
 
     private String getFecha(Compra compra){
+        String texto = "";
 
-        return "";
+        Long timestamp = compra.getDatetime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        texto =  sdf.format(new Date(timestamp));
+
+        return texto;
     }
 }

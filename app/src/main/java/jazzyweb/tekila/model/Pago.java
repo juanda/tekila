@@ -2,7 +2,7 @@ package jazzyweb.tekila.model;
 
 public class Pago {
     private Long id;
-    private Float cantidad;
+    private Double cantidad;
     private Usuario usuario;
     private Compra compra;
 
@@ -10,11 +10,11 @@ public class Pago {
         return id;
     }
 
-    public Float getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Float cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 

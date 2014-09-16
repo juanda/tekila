@@ -34,15 +34,11 @@ public class DataBaseManager {
         dbHelper.close();
     }
 
-    public List<Compra> getComprasFromGrupo(Grupo grupo){
-        return getComprasFromGrupo(grupo, true);
-    }
-
-    public List<Compra> getComprasFromGrupo(Grupo grupo, Boolean full){
+    public List<Compra> getComprasFromGrupo(Long idGrupo){
         List<Compra> _compras = new ArrayList<Compra>();
 
-        String[] campos = new String[] { "_id", "concepto", "cantidad" };
-        String[] args = new String[] {String.valueOf(grupo.getId())};
+        String[] campos = new String[] { "_id", "nombre", "cantidad", "datetime" };
+        String[] args = new String[] {String.valueOf(idGrupo)};
 
         Cursor c = database.query(TekilaSqliteHelper.TABLE_COMPRAS, campos, "id_grupo=?", args, null, null, null);
 
@@ -50,85 +46,78 @@ public class DataBaseManager {
             if (c.moveToFirst()) {
                 do {
                     Long id = c.getLong(0);
-                    String concepto = c.getString(1);
+                    String nombre = c.getString(1);
                     Double cantidad = c.getDouble(2);
+                    Long datetime = c.getLong(3);
 
                     Compra compra = new Compra();
                     setId(compra, id);
-                    compra.setGrupo(grupo);
-                    compra.setConcepto(concepto);
+                    compra.setNombre(nombre);
                     compra.setCantidad(cantidad);
+                    compra.setDatetime(datetime);
 
-                    if(full) {
-                        List<Participacion> participaciones = getParticipacionesFromCompra(compra);
-                        List<Pago> pagos = getPagosFromCompra(compra);
+                    List<Participacion> participaciones = getParticipacionesFromCompra(compra.getId());
+                    List<Pago> pagos = getPagosFromCompra(compra.getId());
 
-                        compra.setParticipaciones(participaciones);
-                        compra.setPagos(pagos);
-                    }
+                    compra.setParticipaciones(participaciones);
+                    compra.setPagos(pagos);
+
                     _compras.add(compra);
 
                 } while (c.moveToNext());
             }
         }catch (Exception e) {
             Log.i(this.getClass().getName(), e.getMessage());
+        }finally {
+            c.close();
         }
 
         return _compras;
     }
 
-    public List<Participacion> getParticipacionesFromUsuario(Usuario usuario){
-        return getParticipacionesFromUsuario(usuario, true);
-    }
+//    public List<Participacion> getParticipacionesFromUsuario(Usuario usuario, Boolean full){
+//        Long idCompra = usuario.getId();
+//
+//        List<Participacion> _participaciones = new ArrayList<Participacion>();
+//        String[] campos = new String[] { "_id", "id_compra", "porcentaje" };
+//        String[] args = new String[] {String.valueOf(usuario.getId())};
+//
+//        Cursor c = database.query(TekilaSqliteHelper.TABLE_PARTICIPACIONES, campos, "id_usuario=?", args, null, null, null);
+//
+//        try {
+//            if (c.moveToFirst()) {
+//                do {
+//                    Long id = c.getLong(0);
+//                    Long id_compra = c.getLong(1);
+//                    Double porcentaje = c.getDouble(2);
+//
+//                    Participacion participacion = new Participacion();
+//                    setId(participacion, id);
+//                    participacion.setUsuario(usuario);
+//                    participacion.setPorcentaje(porcentaje);
+//
+//                    if(full){
+//                        Compra compra = getCompra(id_compra);
+//                        participacion.setCompra(compra);
+//                    }
+//
+//                    _participaciones.add(participacion);
+//
+//                } while (c.moveToNext());
+//            }
+//        }catch (Exception e) {
+//            Log.i(this.getClass().getName(), e.getMessage());
+//        }
+//
+//        return  _participaciones;
+//    }
 
-    public List<Participacion> getParticipacionesFromUsuario(Usuario usuario, Boolean full){
-        Long idCompra = usuario.getId();
-
-        List<Participacion> _participaciones = new ArrayList<Participacion>();
-        String[] campos = new String[] { "_id", "id_compra", "porcentaje" };
-        String[] args = new String[] {String.valueOf(usuario.getId())};
-
-        Cursor c = database.query(TekilaSqliteHelper.TABLE_PARTICIPACIONES, campos, "id_usuario=?", args, null, null, null);
-
-        try {
-            if (c.moveToFirst()) {
-                do {
-                    Long id = c.getLong(0);
-                    Long id_compra = c.getLong(1);
-                    Double porcentaje = c.getDouble(2);
-
-                    Participacion participacion = new Participacion();
-                    setId(participacion, id);
-                    participacion.setUsuario(usuario);
-                    participacion.setPorcentaje(porcentaje);
-
-                    if(full){
-                        Compra compra = getCompra(id_compra);
-                        participacion.setCompra(compra);
-                    }
-
-                    _participaciones.add(participacion);
-
-                } while (c.moveToNext());
-            }
-        }catch (Exception e) {
-            Log.i(this.getClass().getName(), e.getMessage());
-        }
-
-        return  _participaciones;
-    }
-
-    public List<Participacion> getParticipacionesFromCompra(Compra compra){
-        return getParticipacionesFromCompra(compra, true);
-    }
-
-    public List<Participacion> getParticipacionesFromCompra(Compra compra, Boolean full){
-
-        Long idCompra = compra.getId();
+    public List<Participacion> getParticipacionesFromCompra(Long idCompra){
 
         List<Participacion> _participaciones = new ArrayList<Participacion>();
+
         String[] campos = new String[] { "_id", "id_usuario", "porcentaje" };
-        String[] args = new String[] {String.valueOf(compra.getId())};
+        String[] args = new String[] {String.valueOf(idCompra)};
 
         Cursor c = database.query(TekilaSqliteHelper.TABLE_PARTICIPACIONES, campos, "id_compra=?", args, null, null, null);
 
@@ -141,13 +130,10 @@ public class DataBaseManager {
 
                     Participacion participacion = new Participacion();
                     setId(participacion, id);
-                    participacion.setCompra(compra);
                     participacion.setPorcentaje(porcentaje);
 
-                    if(full){
-                        Usuario usuario = getUsuario(id_usuario);
-                        participacion.setUsuario(usuario);
-                    }
+                    Usuario usuario = getUsuario(id_usuario);
+                    participacion.setUsuario(usuario);
 
                     _participaciones.add(participacion);
 
@@ -155,42 +141,50 @@ public class DataBaseManager {
             }
         }catch (Exception e) {
             Log.i(this.getClass().getName(), e.getMessage());
+        }finally {
+            c.close();
         }
 
         return  _participaciones;
     }
 
+    public List<Pago> getPagosFromCompra(Long idCompra){
 
+        List<Pago> _pagos = new ArrayList<Pago>();
 
-    public List<Pago> getPagosFromUsuario(Usuario usuario){
-        return getPagosFromUsuario(usuario);
-    }
+        String[] campos = new String[] { "_id", "id_usuario", "cantidad" };
+        String[] args = new String[] {String.valueOf(idCompra)};
 
-    public List<Pago> getPagosFromUsuario(Usuario usuario, Boolean full){
-        return null;
-    }
+        Cursor c = database.query(TekilaSqliteHelper.TABLE_PAGOS, campos, "id_compra=?", args, null, null, null);
 
-    public List<Grupo> getGrupoFromUsuario(Usuario usuario){
-        return getGrupoFromUsuario(usuario, true);
-    }
+        try {
+            if (c.moveToFirst()) {
+                do {
+                    Long id = c.getLong(0);
+                    Long id_usuario = c.getLong(1);
+                    Double cantidad = c.getDouble(2);
 
-    public List<Grupo> getGrupoFromUsuario(Usuario usuario, Boolean full){
-        return null;
-    }
+                    Pago pago = new Pago();
+                    setId(pago, id);
+                    pago.setCantidad(cantidad);
 
-    public List<Pago> getPagosFromCompra(Compra compra){
-        return getPagosFromCompra(compra, true);
-    }
+                    Usuario usuario = getUsuario(id_usuario);
+                    pago.setUsuario(usuario);
 
-    public List<Pago> getPagosFromCompra(Compra compra, Boolean full){
-        return null;
+                    _pagos.add(pago);
+
+                } while (c.moveToNext());
+            }
+        }catch (Exception e) {
+            Log.i(this.getClass().getName(), e.getMessage());
+        }finally {
+            c.close();
+        }
+
+        return  _pagos;
     }
 
     public Usuario getUsuario(Long id){
-        return getUsuario(id, true);
-    }
-
-    public Usuario getUsuario(Long id, Boolean full){
 
         Usuario usuario = new Usuario();
 
@@ -201,68 +195,70 @@ public class DataBaseManager {
 
         try {
             if (c.moveToFirst()) {
-
                 String nombre = c.getString(0);
-
                 setId(usuario, id);
                 usuario.setNombre(nombre);
-                if(full){
-                    List<Participacion> participaciones = getParticipacionesFromUsuario(usuario);
-                    List<Pago> pagos = getPagosFromUsuario(usuario);
-                    List<Grupo> grupos = getGrupoFromUsuario(usuario);
-
-                    usuario.setParticipaciones(participaciones);
-                    usuario.setPagos(pagos);
-                    usuario.setGrupos(grupos);
-                }
             }
         }catch (Exception e){
             Log.i(this.getClass().getName(), e.getMessage());
+        } finally {
+            c.close();
         }
 
         return usuario;
     }
 
-    public Compra getCompra(Long id){
-        return getCompra(id, true);
-    }
-
-    public Compra getCompra(Long id, Boolean full){
-        Compra compra = new Compra();
-
-        String[] campos = new String[] { "concepto", "cantidad" };
-        String[] args = new String[] {String.valueOf(id)};
-
-        Cursor c = database.query(TekilaSqliteHelper.TABLE_COMPRAS, campos, "_id=?", args, null, null, null);
-
-        try {
-            if (c.moveToFirst()) {
-
-                String concepto = c.getString(0);
-                Double cantidad = c.getDouble(1);
-
-                setId(compra, id);
-                compra.setConcepto(concepto);
-                if(full){
-                    List<Participacion> participaciones = getParticipacionesFromCompra(compra);
-                    List<Pago> pagos = getPagosFromCompra(compra);
 
 
-                    compra.setParticipaciones(participaciones);
-                    compra.setPagos(pagos);
-                }
-            }
-        }catch (Exception e){
-            Log.i(this.getClass().getName(), e.getMessage());
-        }
+//    public Compra getCompra(Long id){
+//        Compra compra = new Compra();
+//
+//        String[] campos = new String[] { "concepto", "cantidad" };
+//        String[] args = new String[] {String.valueOf(id)};
+//
+//        Cursor c = database.query(TekilaSqliteHelper.TABLE_COMPRAS, campos, "_id=?", args, null, null, null);
+//
+//        try {
+//            if (c.moveToFirst()) {
+//
+//                String concepto = c.getString(0);
+//                Double cantidad = c.getDouble(1);
+//
+//                setId(compra, id);
+//                compra.setConcepto(concepto);
+//                if(full){
+//                    List<Participacion> participaciones = getParticipacionesFromCompra(compra);
+//                    List<Pago> pagos = getPagosFromCompra(compra);
+//
+//
+//                    compra.setParticipaciones(participaciones);
+//                    compra.setPagos(pagos);
+//                }
+//            }
+//        }catch (Exception e){
+//            Log.i(this.getClass().getName(), e.getMessage());
+//        }
+//
+//        return compra;
+//    }
 
-        return compra;
+    public int getNumParticipantes(Long idGrupo){
+
+        String query = "select count(*) from " + TekilaSqliteHelper.TABLE_USUARIO_GRUPO
+                + " where id_grupo=" + idGrupo;
+        Cursor mCount= database.rawQuery(query, null);
+        mCount.moveToFirst();
+        int count= mCount.getInt(0);
+
+        mCount.close();
+
+        return count;
     }
 
     private void setId(Object entity, Long id) throws NoSuchFieldException, IllegalAccessException{
         Field idField  = entity.getClass().getDeclaredField("id");
         idField.setAccessible(true);
-        idField.setLong(entity, id);
+        idField.set(entity, Long.valueOf(id));
     }
 
 

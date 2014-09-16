@@ -35,6 +35,7 @@ public class ComprasFragment extends Fragment {
     private Long idGrupo;
     private DataBaseManager dataBaseManager;
     private List<Compra> compras;
+    private int numParticipantes;
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,9 +56,10 @@ public class ComprasFragment extends Fragment {
     }
 
     public void onActivityCreated(android.os.Bundle savedInstanceState){
-        dataBaseManager = new DataBaseManager(getActivity());
+        super.onActivityCreated(savedInstanceState);
+//        dataBaseManager = new DataBaseManager(getActivity());
 
-        compras = dataBaseManager.getCompras(idGrupo);
+//        compras = dataBaseManager.getCompras(idGrupo);
     }
 
     public ComprasFragment() {
@@ -67,8 +69,13 @@ public class ComprasFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             idGrupo = getArguments().getLong(ARG_PARAM1);
+            dataBaseManager = new DataBaseManager(getActivity());
+            dataBaseManager.open();
+            compras = dataBaseManager.getComprasFromGrupo(idGrupo);
+            numParticipantes = dataBaseManager.getNumParticipantes(idGrupo);
         }
     }
 
@@ -80,14 +87,11 @@ public class ComprasFragment extends Fragment {
 
         ListView lstCompras = (ListView) rootView.findViewById(R.id.lstCompras);
 
-        ComprasAdapter adapter = new ComprasAdapter(getActivity(), compras);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),R.layout.item_compra, compras);
+        ComprasAdapter adapter = new ComprasAdapter(getActivity(), R.layout.item_compra, compras, numParticipantes);
 
         lstCompras.setAdapter(adapter);
 
         return rootView;
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
