@@ -55,13 +55,6 @@ public class ComprasFragment extends Fragment {
         return fragment;
     }
 
-    public void onActivityCreated(android.os.Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
-//        dataBaseManager = new DataBaseManager(getActivity());
-
-//        compras = dataBaseManager.getCompras(idGrupo);
-    }
-
     public ComprasFragment() {
         // Required empty public constructor
     }

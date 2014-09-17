@@ -34,7 +34,7 @@ public class Main extends Activity {
         Long idGrupo = Long.valueOf(1);
         ComprasFragment comprasFragment = ComprasFragment.newInstance(idGrupo);
         DeudasFragment deudasFragment = DeudasFragment.newInstance("kuku", "kaka");
-        ResumenFragment resumenFragment = ResumenFragment.newInstance("kuku", "kaka");
+        ResumenFragment resumenFragment = ResumenFragment.newInstance(idGrupo);
 
         tabBar.addTab(tabBar.newTab().setText("Compras").setTabListener(new TabListener(comprasFragment)));
         tabBar.addTab(tabBar.newTab().setText("Deudas").setTabListener(new TabListener(deudasFragment)));

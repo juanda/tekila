@@ -85,13 +85,13 @@ public class ComprasAdapter extends ArrayAdapter<Compra>{
     }
 
     private String getParticipantes(Compra compra){
-        String text = TXT_TODOS;
+        String text = "Para: " + TXT_TODOS;
 
         List<Participacion> participaciones = compra.getParticipaciones();
 
         int participacionesSize = participaciones.size();
         if(participacionesSize != numParticipantes){
-            text = "";
+            text = "Para: ";
             for(int i = 0; i < participaciones.size(); i++){
                 text += participaciones.get(i).getUsuario().getNombre();
                 text += (i == participacionesSize - 1)? "" : ", ";

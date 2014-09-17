@@ -44,4 +44,31 @@ public class Usuario {
     public void setPagos(List<Pago> pagos) {
         this.pagos = pagos;
     }
+
+    public Double getPagado(Long idGrupo){
+        Double pagado = Double.valueOf(0.0);
+
+        for(int i = 0; i < pagos.size(); i++){
+            if(pagos.get(i).getCompra().getGrupo().getId() == idGrupo)
+                pagado += pagos.get(i).getCantidad();
+        }
+
+        return  pagado;
+    }
+
+    public Double getGastado(Long idGrupo){
+        Double gastado = Double.valueOf(0.0);
+
+        for(int i = 0; i < participaciones.size(); i++){
+            if(participaciones.get(i).getCompra().getGrupo().getId() == idGrupo)
+                gastado += (participaciones.get(i).getPorcentaje() / 100) * participaciones.get(i).getCompra().getCantidad();
+        }
+
+        return  gastado;
+    }
+
+    public Double getDeuda(Long idGrupo){
+        Double deuda = getPagado(idGrupo) - getGastado(idGrupo);
+        return deuda;
+    }
 }
