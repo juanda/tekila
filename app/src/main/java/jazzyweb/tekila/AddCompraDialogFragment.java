@@ -20,15 +20,21 @@ import jazzyweb.tekila.widget.QuienPagaAdapter;
 
 public class AddCompraDialogFragment extends DialogFragment {
 
+    private Long idGrupo;
+    List<Usuario> usuariosSeleccionados;
 
     OnAddCompraDialogResult dialogResult;
+
+    public interface OnAddCompraDialogResult{
+        void finish(List<Usuario> result);
+    }
 
     public AddCompraDialogFragment(){
 
     }
 
-    public interface OnAddCompraDialogResult{
-        void finish(List<Usuario> result);
+    public void setUsuariosSeleccionados(List<Usuario> usuarios){
+        usuariosSeleccionados = usuarios;
     }
 
     public void setDialogResult(OnAddCompraDialogResult dr){
@@ -38,6 +44,7 @@ public class AddCompraDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
+        idGrupo = getArguments().getLong("idGrupo");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -45,21 +52,18 @@ public class AddCompraDialogFragment extends DialogFragment {
         final View dialogQuienPaga = inflater.inflate(R.layout.dialog_quien_paga, null);
         builder.setView(dialogQuienPaga);
 
-        DataBaseManager dataBaseManager = new DataBaseManager(getActivity());
-        dataBaseManager.open();
 
-        List<Usuario> usuarios = dataBaseManager.getUsuariosFromGrupo(Long.valueOf(1));
-
+        List<Usuario> usuarios = getUsuariosFromGrupo(idGrupo);
         ListView lstQuienPaga = (ListView) dialogQuienPaga.findViewById(R.id.lstQuienPaga);
 
-        final QuienPagaAdapter adapter = new QuienPagaAdapter(getActivity(), R.layout.dialog_quien_paga, usuarios);
+        final QuienPagaAdapter adapter =
+                new QuienPagaAdapter(getActivity(), R.layout.dialog_quien_paga, usuarios, usuariosSeleccionados);
 
         lstQuienPaga.setAdapter(adapter);
 
         builder.setMessage(R.string.label_compra_quien_paga)
                 .setPositiveButton(R.string.action_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-//                        TextView tv = (TextView) dialogQuienPaga.findViewById(R.id.txtQuienPaga);
                         if( dialogResult != null ){
                             dialogResult.finish(adapter.getUsuariosSeleccionados());
                         }
@@ -75,5 +79,14 @@ public class AddCompraDialogFragment extends DialogFragment {
 
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    private List<Usuario> getUsuariosFromGrupo(Long idGrupo){
+        DataBaseManager dataBaseManager = new DataBaseManager(getActivity());
+        dataBaseManager.open();
+
+        List<Usuario> usuarios = dataBaseManager.getUsuariosFromGrupo(idGrupo);
+
+        return usuarios;
     }
 }

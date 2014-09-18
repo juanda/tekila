@@ -21,9 +21,13 @@ import jazzyweb.tekila.db.TekilaSqliteHelper;
 
 public class MainAction extends Activity {
 
+    private Long idGrupo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        idGrupo = Long.valueOf(1);
+
         setContentView(R.layout.activity_main);
 
         final ActionBar tabBar = getActionBar();
@@ -31,15 +35,13 @@ public class MainAction extends Activity {
 
         loadDatabase();
 
-        Long idGrupo = Long.valueOf(1);
         ComprasFragment comprasFragment = ComprasFragment.newInstance(idGrupo);
-        DeudasFragment deudasFragment = DeudasFragment.newInstance("kuku", "kaka");
         ResumenFragment resumenFragment = ResumenFragment.newInstance(idGrupo);
+        DeudasFragment deudasFragment = DeudasFragment.newInstance("kuku", "kaka");
 
         tabBar.addTab(tabBar.newTab().setText("Compras").setTabListener(new TabListener(comprasFragment)));
-        tabBar.addTab(tabBar.newTab().setText("Deudas").setTabListener(new TabListener(deudasFragment)));
         tabBar.addTab(tabBar.newTab().setText("Resumen").setTabListener(new TabListener(resumenFragment)));
-
+        tabBar.addTab(tabBar.newTab().setText("Deudas").setTabListener(new TabListener(deudasFragment)));
     }
 
     @Override
@@ -59,6 +61,9 @@ public class MainAction extends Activity {
             return true;
         }else if(id == R.id.action_add_compra){
             Intent intent = new Intent(this, AddCompraAction.class);
+            Bundle b = new Bundle();
+            b.putLong("idGrupo", idGrupo );
+            intent.putExtras(b);
             startActivity(intent);
             return true;
         }
@@ -106,8 +111,6 @@ public class MainAction extends Activity {
             LoadTestData ltd = new LoadTestData("datatest.json",this);
 
             ltd.load();
-
-            Toast.makeText(this, "dentro", Toast.LENGTH_LONG).show();
         }catch (SQLiteException e){
             Log.w("TEKILA_DB", e.getMessage());
             Toast.makeText(this, "Error abriendo base de datos", Toast.LENGTH_LONG).show();

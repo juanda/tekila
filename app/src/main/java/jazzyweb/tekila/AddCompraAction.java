@@ -6,20 +6,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.model.Usuario;
 
 
 public class AddCompraAction extends Activity {
 
     private List<Usuario> usuariosSeleccionados;
+
+    private Long idGrupo;
 
     public List<Usuario> getUsuariosSeleccionados() {
         return usuariosSeleccionados;
@@ -34,20 +33,27 @@ public class AddCompraAction extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_compra);
 
+        Bundle b = getIntent().getExtras();
+        idGrupo = b.getLong("idGrupo");
+
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        DataBaseManager dataBaseManager = new DataBaseManager(this);
-        dataBaseManager.open();
-        List<Usuario> usuarios = dataBaseManager.getUsuariosFromGrupo(Long.valueOf(1));
 
 
         final TextView lblQuienPaga = (TextView) findViewById(R.id.lblQuienLoHaPagado);
         final TextView lblQuienParticipa = (TextView) findViewById(R.id.lblQuienParticipa);
+
         lblQuienPaga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AddCompraDialogFragment dialog = new AddCompraDialogFragment();
+
+                Bundle b = new Bundle();
+                b.putLong("idGrupo", idGrupo);
+
+                dialog.setArguments(b);
+                dialog.setUsuariosSeleccionados(usuariosSeleccionados);
+
                 dialog.setDialogResult(new AddCompraDialogFragment.OnAddCompraDialogResult() {
                     @Override
                     public void finish(List<Usuario> result) {

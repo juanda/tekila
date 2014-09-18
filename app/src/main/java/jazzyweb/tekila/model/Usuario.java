@@ -85,4 +85,18 @@ public class Usuario {
     public String toString(){
         return nombre;
     }
+
+    @Override
+    public boolean equals(java.lang.Object o){
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Usuario)) {
+            return false;
+        }
+
+        Usuario u = (Usuario) o;
+
+        return u.getId() == id;
+    }
 }

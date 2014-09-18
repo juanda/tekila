@@ -28,11 +28,11 @@ public class QuienPagaAdapter extends ArrayAdapter<Usuario>{
     private static final String TXT_TODOS = "Todos";
     private static final String TXT_CURRENCY = "€";
 
-    private ArrayList<Usuario> usuariosSeleccionados;
+    private List<Usuario> usuariosSeleccionados;
 
-    public QuienPagaAdapter(Context context, int resource, List<Usuario> usuarios) {
+    public QuienPagaAdapter(Context context, int resource, List<Usuario> usuarios,  List<Usuario> ususSelect) {
         super(context, resource, usuarios);
-        usuariosSeleccionados = new ArrayList<Usuario>();
+        usuariosSeleccionados = (ususSelect == null)?  new ArrayList<Usuario>() : ususSelect;
     }
 
     public List<Usuario> getUsuariosSeleccionados() {
@@ -52,7 +52,7 @@ public class QuienPagaAdapter extends ArrayAdapter<Usuario>{
         final CheckBox chkQuienPaga = (CheckBox) convertView.findViewById(R.id.chkDialogQuienPagaUsuario);
         final EditText etxtCantidad = (EditText) convertView.findViewById(R.id.etxtDialogQuienPagaCantidad);
 
-        // Populate the data into the template view using the data object
+        initializeWidgets(chkQuienPaga, etxtCantidad, usuario);
 
         txtQuienPaga.setText(usuario.getNombre());
         etxtCantidad.setVisibility(View.INVISIBLE);
@@ -67,6 +67,7 @@ public class QuienPagaAdapter extends ArrayAdapter<Usuario>{
                 }else{
                     etxtCantidad.setText("");
                     etxtCantidad.setVisibility(View.INVISIBLE);
+                    usuariosSeleccionados.remove(usuario);
                 }
             }
         });
@@ -85,6 +86,26 @@ public class QuienPagaAdapter extends ArrayAdapter<Usuario>{
 
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    private void initializeWidgets(CheckBox checkBox, EditText editText, Usuario usuario){
+        if(userIsInSelectedList(usuario)){
+            checkBox.setChecked(true);
+            editText.setText(String.valueOf(usuario.getCantidadAux()));
+        }else{
+            checkBox.setChecked(false);
+            editText.setText("");
+        }
+    }
+
+
+    private boolean userIsInSelectedList(Usuario usuario){
+        for(Usuario u: usuariosSeleccionados){
+            if(usuario.getId() == u.getId()){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
