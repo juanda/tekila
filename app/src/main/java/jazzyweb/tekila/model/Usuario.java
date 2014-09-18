@@ -71,4 +71,8 @@ public class Usuario {
         Double deuda = getPagado(idGrupo) - getGastado(idGrupo);
         return deuda;
     }
+
+    public String toString(){
+        return nombre;
+    }
 }

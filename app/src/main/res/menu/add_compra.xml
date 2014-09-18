@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="jazzyweb.tekila.AddCompraAction" >
+
+    <item android:id="@+id/action_cancel_add_compra"
+        android:title="@string/action_cancelar"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_cancel"
+        android:showAsAction="always" />
+
+    <item android:id="@+id/action_save_compra"
+        android:title="@string/action_save_compra"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_accept"
+        android:showAsAction="always" />
+</menu>

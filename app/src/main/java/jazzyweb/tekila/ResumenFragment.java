@@ -1,6 +1,5 @@
 package jazzyweb.tekila;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -12,8 +11,8 @@ import android.widget.ListView;
 import java.util.List;
 
 import jazzyweb.tekila.db.DataBaseManager;
-import jazzyweb.tekila.model.Compra;
 import jazzyweb.tekila.model.Usuario;
+import jazzyweb.tekila.widget.UsuariosResumenAdapter;
 
 
 /**
