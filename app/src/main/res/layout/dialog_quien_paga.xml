@@ -4,8 +4,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtQuienPaga" />
+        android:id="@+id/lstQuienPaga" />
 </LinearLayout>

@@ -7,10 +7,16 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+import java.util.List;
+
+import jazzyweb.tekila.db.DataBaseManager;
+import jazzyweb.tekila.model.Usuario;
+import jazzyweb.tekila.widget.ComprasAdapter;
+import jazzyweb.tekila.widget.QuienPagaAdapter;
 
 public class AddCompraDialogFragment extends DialogFragment {
 
@@ -22,7 +28,7 @@ public class AddCompraDialogFragment extends DialogFragment {
     }
 
     public interface OnAddCompraDialogResult{
-        void finish(String result);
+        void finish(List<Usuario> result);
     }
 
     public void setDialogResult(OnAddCompraDialogResult dr){
@@ -39,12 +45,23 @@ public class AddCompraDialogFragment extends DialogFragment {
         final View dialogQuienPaga = inflater.inflate(R.layout.dialog_quien_paga, null);
         builder.setView(dialogQuienPaga);
 
-        builder.setMessage(R.string.action_add_compra)
-                .setPositiveButton(R.string.action_save_compra, new DialogInterface.OnClickListener() {
+        DataBaseManager dataBaseManager = new DataBaseManager(getActivity());
+        dataBaseManager.open();
+
+        List<Usuario> usuarios = dataBaseManager.getUsuariosFromGrupo(Long.valueOf(1));
+
+        ListView lstQuienPaga = (ListView) dialogQuienPaga.findViewById(R.id.lstQuienPaga);
+
+        final QuienPagaAdapter adapter = new QuienPagaAdapter(getActivity(), R.layout.dialog_quien_paga, usuarios);
+
+        lstQuienPaga.setAdapter(adapter);
+
+        builder.setMessage(R.string.label_compra_quien_paga)
+                .setPositiveButton(R.string.action_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        TextView tv = (TextView) dialogQuienPaga.findViewById(R.id.txtQuienPaga);
+//                        TextView tv = (TextView) dialogQuienPaga.findViewById(R.id.txtQuienPaga);
                         if( dialogResult != null ){
-                            dialogResult.finish(String.valueOf(tv.getText()));
+                            dialogResult.finish(adapter.getUsuariosSeleccionados());
                         }
                         AddCompraDialogFragment.this.dismiss();
                     }

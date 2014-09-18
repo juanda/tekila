@@ -9,6 +9,16 @@ public class Usuario {
     private List<Participacion> participaciones;
     private List<Pago> pagos;
 
+    private Double cantidadAux;
+
+    public Double getCantidadAux() {
+        return cantidadAux;
+    }
+
+    public void setCantidadAux(Double cantidadAux) {
+        this.cantidadAux = cantidadAux;
+    }
+
     public Long getId() {
         return id;
     }

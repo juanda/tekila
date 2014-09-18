@@ -14,24 +14,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/lblQuienLoHaPagado" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spQuienPaga"
-        android:layout_below="@+id/lblQuienLoHaPagado"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:spinnerMode="dialog"
-        />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_compra_quien_participa"
         android:id="@+id/lblQuienParticipa"
-        android:layout_below="@+id/spQuienPaga"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lblQuienLoHaPagado" />
 
 </RelativeLayout>

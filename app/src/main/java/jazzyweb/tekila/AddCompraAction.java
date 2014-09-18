@@ -19,14 +19,14 @@ import jazzyweb.tekila.model.Usuario;
 
 public class AddCompraAction extends Activity {
 
-    private String kuku;
+    private List<Usuario> usuariosSeleccionados;
 
-    public String getKuku() {
-        return kuku;
+    public List<Usuario> getUsuariosSeleccionados() {
+        return usuariosSeleccionados;
     }
 
-    public void setKuku(String kuku) {
-        this.kuku = kuku;
+    public void setUsuariosSeleccionados(List<Usuario> usuariosSeleccionados) {
+        this.usuariosSeleccionados = usuariosSeleccionados;
     }
 
     @Override
@@ -37,26 +37,22 @@ public class AddCompraAction extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
         DataBaseManager dataBaseManager = new DataBaseManager(this);
         dataBaseManager.open();
         List<Usuario> usuarios = dataBaseManager.getUsuariosFromGrupo(Long.valueOf(1));
 
-        Spinner spQuienPaga = (Spinner) findViewById(R.id.spQuienPaga);
-        ArrayAdapter<Usuario> adapter = new ArrayAdapter<Usuario>(this,android.R.layout.simple_spinner_item,usuarios);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spQuienPaga.setAdapter(adapter);
 
+        final TextView lblQuienPaga = (TextView) findViewById(R.id.lblQuienLoHaPagado);
         final TextView lblQuienParticipa = (TextView) findViewById(R.id.lblQuienParticipa);
-        lblQuienParticipa.setOnClickListener(new View.OnClickListener() {
+        lblQuienPaga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AddCompraDialogFragment dialog = new AddCompraDialogFragment();
                 dialog.setDialogResult(new AddCompraDialogFragment.OnAddCompraDialogResult() {
                     @Override
-                    public void finish(String result) {
-                        AddCompraAction.this.setKuku(result);
-                        lblQuienParticipa.setText(result);
+                    public void finish(List<Usuario> result) {
+                        AddCompraAction.this.setUsuariosSeleccionados(result);
+                        lblQuienPaga.setText(result.get(0).getNombre() + " " + result.get(0).getCantidadAux());
                     }
                 });
                 dialog.show(getFragmentManager(),"tag");
@@ -83,10 +79,6 @@ public class AddCompraAction extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_save_compra) {
-            Spinner spinner = (Spinner) findViewById(R.id.spQuienPaga);
-
-            Usuario usuario = (Usuario) spinner.getSelectedItem();
-            Toast.makeText(this, usuario.getNombre(), Toast.LENGTH_LONG).show();
 
             return true;
         }

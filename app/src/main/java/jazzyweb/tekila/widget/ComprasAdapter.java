@@ -1,4 +1,4 @@
-package jazzyweb.tekila;
+package jazzyweb.tekila.widget;
 
 
 import android.content.Context;
@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import jazzyweb.tekila.R;
 import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.model.Compra;
 import jazzyweb.tekila.model.Pago;

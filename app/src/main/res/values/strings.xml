@@ -7,6 +7,7 @@
     <string name="action_add_compra">Añadir Compra</string>
     <string name="action_cancelar">Cancelar</string>
     <string name="action_save_compra">Guardar Compra</string>
+    <string name="action_OK">OK</string>
 
     <string name="label_compra_quien_paga">¿Quién lo ha pagado?</string>
     <string name="label_compra_quien_participa">¿Quién participa?</string>
@@ -16,18 +17,6 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_compra">Añadir Compra</string>
-
-    <string-array name="planets_array">
-        <item></item>
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
 
 
 </resources>
