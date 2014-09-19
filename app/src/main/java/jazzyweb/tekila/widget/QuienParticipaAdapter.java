@@ -2,11 +2,7 @@ package jazzyweb.tekila.widget;
 
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.method.KeyListener;
-import android.text.method.NumberKeyListener;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +11,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.security.Key;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import jazzyweb.tekila.R;
-import jazzyweb.tekila.model.Compra;
-import jazzyweb.tekila.model.Pago;
-import jazzyweb.tekila.model.Participacion;
 import jazzyweb.tekila.model.Usuario;
 
-public class QuienPagaAdapter extends ArrayAdapter<Usuario>{
+public class QuienParticipaAdapter extends ArrayAdapter<Usuario>{
 
 
     private static final String TXT_TODOS = "Todos";
@@ -36,7 +25,7 @@ public class QuienPagaAdapter extends ArrayAdapter<Usuario>{
 
     private List<Usuario> usuariosSeleccionados;
 
-    public QuienPagaAdapter(Context context, int resource, List<Usuario> usuarios,  List<Usuario> ususSelect) {
+    public QuienParticipaAdapter(Context context, int resource, List<Usuario> usuarios, List<Usuario> ususSelect) {
         super(context, resource, usuarios);
         usuariosSeleccionados = (ususSelect == null)?  new ArrayList<Usuario>() : ususSelect;
     }
@@ -51,19 +40,19 @@ public class QuienPagaAdapter extends ArrayAdapter<Usuario>{
         final Usuario usuario = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_quien_paga_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_quien_participa_item, parent, false);
         }
         // Lookup view for data population
-        TextView txtQuienPaga = (TextView) convertView.findViewById(R.id.txtDialogQuienPagaUsuario);
-        final CheckBox chkQuienPaga = (CheckBox) convertView.findViewById(R.id.chkDialogQuienPagaUsuario);
-        final EditText etxtCantidad = (EditText) convertView.findViewById(R.id.etxtDialogQuienPagaCantidad);
+        TextView txtQuienParticipa = (TextView) convertView.findViewById(R.id.txtDialogQuienParticipaUsuario);
+        final CheckBox chkQuienParticipa = (CheckBox) convertView.findViewById(R.id.chkDialogQuienParticipaUsuario);
+        final EditText etxtCantidad = (EditText) convertView.findViewById(R.id.etxtDialogQuienParticipaCantidad);
 
-        initializeWidgets(txtQuienPaga, chkQuienPaga, etxtCantidad, usuario);
+        initializeWidgets(txtQuienParticipa, chkQuienParticipa, etxtCantidad, usuario);
 
-        chkQuienPaga.setOnClickListener(new View.OnClickListener() {
+        chkQuienParticipa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(chkQuienPaga.isChecked()) {
+                if(chkQuienParticipa.isChecked()) {
                     etxtCantidad.setVisibility(View.VISIBLE);
                     etxtCantidad.requestFocus();
                     usuariosSeleccionados.add(usuario);
@@ -92,19 +81,19 @@ public class QuienPagaAdapter extends ArrayAdapter<Usuario>{
         return convertView;
     }
 
-    private void initializeWidgets(TextView txtQuienPaga, CheckBox chkQuienPaga, EditText etxtCantidad, Usuario usuario){
-        txtQuienPaga.setText(usuario.getNombre());
+    private void initializeWidgets(TextView txtQuienParticipa, CheckBox chkQuienParticipa, EditText etxtCantidad, Usuario usuario){
+        txtQuienParticipa.setText(usuario.getNombre());
         etxtCantidad.setVisibility(View.INVISIBLE);
         if(userIsInSelectedList(usuario)){
             usuario.setCantidadAux(usuariosSeleccionados.get(usuariosSeleccionados.indexOf(usuario)).getCantidadAux());
-            Log.i(QuienPagaAdapter.class.getName(), "El usuario " + usuario.getNombre() + "está, y tiene una cantidad de " + usuario.getCantidadAux());
-            chkQuienPaga.setChecked(true);
+            Log.i(QuienParticipaAdapter.class.getName(), "El usuario " + usuario.getNombre() + "está, y tiene una cantidad de " + usuario.getCantidadAux());
+            chkQuienParticipa.setChecked(true);
             etxtCantidad.setText(String.valueOf(usuario.getCantidadAux()));
             etxtCantidad.setVisibility(View.VISIBLE);
 
         }else{
-            Log.i(QuienPagaAdapter.class.getName(), "El usuario " + usuario.getNombre() + "NO está, y tiene una cantidad de " + usuario.getCantidadAux());
-            chkQuienPaga.setChecked(false);
+            Log.i(QuienParticipaAdapter.class.getName(), "El usuario " + usuario.getNombre() + "NO está, y tiene una cantidad de " + usuario.getCantidadAux());
+            chkQuienParticipa.setChecked(false);
             etxtCantidad.setText("");
         }
     }

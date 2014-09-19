@@ -8,25 +8,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jazzyweb.tekila.model.Usuario;
 
 
-public class AddCompraAction extends Activity {
+public class AddCompraAction extends Activity implements QuienPagaDialogFragment.OnUsuariosSelectedChangeListener, QuienParticipaDialogFragment.OnUsuariosSelectedChangeListener {
 
     private List<Usuario> usuariosSeleccionados;
 
     private Long idGrupo;
-
-    public List<Usuario> getUsuariosSeleccionados() {
-        return usuariosSeleccionados;
-    }
-
-    public void setUsuariosSeleccionados(List<Usuario> usuariosSeleccionados) {
-        this.usuariosSeleccionados = usuariosSeleccionados;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +37,7 @@ public class AddCompraAction extends Activity {
         lblQuienPaga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddCompraDialogFragment dialog = new AddCompraDialogFragment();
+                QuienPagaDialogFragment dialog = new QuienPagaDialogFragment();
 
                 Bundle b = new Bundle();
                 b.putLong("idGrupo", idGrupo);
@@ -54,20 +45,17 @@ public class AddCompraAction extends Activity {
                 dialog.setArguments(b);
                 dialog.setUsuariosSeleccionados(usuariosSeleccionados);
 
-                dialog.setDialogResult(new AddCompraDialogFragment.OnAddCompraDialogResult() {
-                    @Override
-                    public void finish(List<Usuario> result) {
-                        AddCompraAction.this.setUsuariosSeleccionados(result);
-                        lblQuienPaga.setText(result.get(0).getNombre() + " " + result.get(0).getCantidadAux());
-                    }
-                });
                 dialog.show(getFragmentManager(),"tag");
             }
         });
 
-
-//        Spinner spQuienParticipa = (Spinner) findViewById(R.id.spQuienParticipa);
-
+        lblQuienParticipa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QuienParticipaDialogFragment dialog = QuienParticipaDialogFragment.newInstance(idGrupo, usuariosSeleccionados);
+                dialog.show(getFragmentManager(),"tag");
+            }
+        });
     }
 
 
@@ -89,5 +77,11 @@ public class AddCompraAction extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onUsuariosSelectedChange(List<Usuario> uSeleccionados) {
+        usuariosSeleccionados = uSeleccionados;
     }
 }

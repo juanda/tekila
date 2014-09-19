@@ -1,5 +1,6 @@
 package jazzyweb.tekila;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -8,28 +9,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.model.Usuario;
-import jazzyweb.tekila.widget.ComprasAdapter;
 import jazzyweb.tekila.widget.QuienPagaAdapter;
 
-public class AddCompraDialogFragment extends DialogFragment {
+public class QuienPagaDialogFragment extends DialogFragment {
 
     private Long idGrupo;
     List<Usuario> usuariosSeleccionados;
+    OnUsuariosSelectedChangeListener mCallback;
 
-    OnAddCompraDialogResult dialogResult;
-
-    public interface OnAddCompraDialogResult{
-        void finish(List<Usuario> result);
+    public interface OnUsuariosSelectedChangeListener{
+        public void onUsuariosSelectedChange(List<Usuario> result);
     }
 
-    public AddCompraDialogFragment(){
+    public QuienPagaDialogFragment(){
 
     }
 
@@ -37,13 +34,9 @@ public class AddCompraDialogFragment extends DialogFragment {
         usuariosSeleccionados = usuarios;
     }
 
-    public void setDialogResult(OnAddCompraDialogResult dr){
-        dialogResult = dr;
-    }
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
+
         idGrupo = getArguments().getLong("idGrupo");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -52,9 +45,8 @@ public class AddCompraDialogFragment extends DialogFragment {
         final View dialogQuienPaga = inflater.inflate(R.layout.dialog_quien_paga, null);
         builder.setView(dialogQuienPaga);
 
-
         List<Usuario> usuarios = getUsuariosFromGrupo(idGrupo);
-        ListView lstQuienPaga = (ListView) dialogQuienPaga.findViewById(R.id.lstQuienPaga);
+        final ListView lstQuienPaga = (ListView) dialogQuienPaga.findViewById(R.id.lstQuienPaga);
 
         final QuienPagaAdapter adapter =
                 new QuienPagaAdapter(getActivity(), R.layout.dialog_quien_paga, usuarios, usuariosSeleccionados);
@@ -64,10 +56,8 @@ public class AddCompraDialogFragment extends DialogFragment {
         builder.setMessage(R.string.label_compra_quien_paga)
                 .setPositiveButton(R.string.action_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if( dialogResult != null ){
-                            dialogResult.finish(adapter.getUsuariosSeleccionados());
-                        }
-                        AddCompraDialogFragment.this.dismiss();
+                    mCallback.onUsuariosSelectedChange(adapter.getUsuariosSeleccionados());
+                    QuienPagaDialogFragment.this.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.action_cancelar, new DialogInterface.OnClickListener() {
@@ -89,4 +79,18 @@ public class AddCompraDialogFragment extends DialogFragment {
 
         return usuarios;
     }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnUsuariosSelectedChangeListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnUsuariosSelectedChangeListener");
+        }
+    }
+
 }
