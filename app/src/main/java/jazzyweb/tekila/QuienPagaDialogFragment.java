@@ -14,16 +14,16 @@ import java.util.List;
 
 import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.model.Usuario;
-import jazzyweb.tekila.widget.QuienPagaAdapter;
+import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 
 public class QuienPagaDialogFragment extends DialogFragment {
 
     private Long idGrupo;
     List<Usuario> usuariosSeleccionados;
-    OnUsuariosSelectedChangeListener mCallback;
+    OnUsuariosPagoSelectedChangeListener mCallback;
 
-    public interface OnUsuariosSelectedChangeListener{
-        public void onUsuariosSelectedChange(List<Usuario> result);
+    public interface OnUsuariosPagoSelectedChangeListener{
+        public void onUsuariosPagoSelectedChange(List<Usuario> result);
     }
 
     public QuienPagaDialogFragment(){
@@ -48,15 +48,15 @@ public class QuienPagaDialogFragment extends DialogFragment {
         List<Usuario> usuarios = getUsuariosFromGrupo(idGrupo);
         final ListView lstQuienPaga = (ListView) dialogQuienPaga.findViewById(R.id.lstQuienPaga);
 
-        final QuienPagaAdapter adapter =
-                new QuienPagaAdapter(getActivity(), R.layout.dialog_quien_paga, usuarios, usuariosSeleccionados);
+        final SelectUsuariosYCantidadAdapter adapter =
+                new SelectUsuariosYCantidadAdapter(getActivity(), R.layout.dialog_quien_paga, usuarios, usuariosSeleccionados);
 
         lstQuienPaga.setAdapter(adapter);
 
         builder.setMessage(R.string.label_compra_quien_paga)
                 .setPositiveButton(R.string.action_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                    mCallback.onUsuariosSelectedChange(adapter.getUsuariosSeleccionados());
+                    mCallback.onUsuariosPagoSelectedChange(adapter.getUsuariosSeleccionados());
                     QuienPagaDialogFragment.this.dismiss();
                     }
                 })
@@ -86,10 +86,10 @@ public class QuienPagaDialogFragment extends DialogFragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mCallback = (OnUsuariosSelectedChangeListener) activity;
+            mCallback = (OnUsuariosPagoSelectedChangeListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnUsuariosSelectedChangeListener");
+                    + " must implement OnUsuariosPagoSelectedChangeListener");
         }
     }
 

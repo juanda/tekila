@@ -13,9 +13,10 @@ import java.util.List;
 import jazzyweb.tekila.model.Usuario;
 
 
-public class AddCompraAction extends Activity implements QuienPagaDialogFragment.OnUsuariosSelectedChangeListener, QuienParticipaDialogFragment.OnUsuariosSelectedChangeListener {
+public class AddCompraAction extends Activity implements QuienPagaDialogFragment.OnUsuariosPagoSelectedChangeListener, QuienParticipaDialogFragment.OnUsuariosParticipaSelectedChangeListener {
 
-    private List<Usuario> usuariosSeleccionados;
+    private List<Usuario> usuariosPagosSeleccionados;
+    private List<Usuario> usuariosParticipaSeleccionados;
 
     private Long idGrupo;
 
@@ -43,7 +44,7 @@ public class AddCompraAction extends Activity implements QuienPagaDialogFragment
                 b.putLong("idGrupo", idGrupo);
 
                 dialog.setArguments(b);
-                dialog.setUsuariosSeleccionados(usuariosSeleccionados);
+                dialog.setUsuariosSeleccionados(usuariosPagosSeleccionados);
 
                 dialog.show(getFragmentManager(),"tag");
             }
@@ -52,7 +53,7 @@ public class AddCompraAction extends Activity implements QuienPagaDialogFragment
         lblQuienParticipa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuienParticipaDialogFragment dialog = QuienParticipaDialogFragment.newInstance(idGrupo, usuariosSeleccionados);
+                QuienParticipaDialogFragment dialog = QuienParticipaDialogFragment.newInstance(idGrupo, usuariosParticipaSeleccionados);
                 dialog.show(getFragmentManager(),"tag");
             }
         });
@@ -81,7 +82,12 @@ public class AddCompraAction extends Activity implements QuienPagaDialogFragment
 
 
     @Override
-    public void onUsuariosSelectedChange(List<Usuario> uSeleccionados) {
-        usuariosSeleccionados = uSeleccionados;
+    public void onUsuariosPagoSelectedChange(List<Usuario> uSeleccionados) {
+        usuariosPagosSeleccionados = uSeleccionados;
+    }
+
+    @Override
+    public void onUsuariosParticipaSelectedChange(List<Usuario> uSeleccionados) {
+        usuariosParticipaSeleccionados = uSeleccionados;
     }
 }

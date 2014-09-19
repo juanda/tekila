@@ -17,8 +17,7 @@ import java.util.List;
 
 import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.model.Usuario;
-import jazzyweb.tekila.widget.QuienPagaAdapter;
-import jazzyweb.tekila.widget.QuienParticipaAdapter;
+import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 
 
 /**
@@ -37,12 +36,12 @@ public class QuienParticipaDialogFragment extends DialogFragment {
 
     private Long idGrupo;
     List<Usuario> usuariosSeleccionados;
-    OnUsuariosSelectedChangeListener mCallback;
+    OnUsuariosParticipaSelectedChangeListener mCallback;
 
     private OnFragmentInteractionListener mListener;
 
-    public interface OnUsuariosSelectedChangeListener{
-        public void onUsuariosSelectedChange(List<Usuario> result);
+    public interface OnUsuariosParticipaSelectedChangeListener{
+        public void onUsuariosParticipaSelectedChange(List<Usuario> result);
     }
 
     public void setUsuariosSeleccionados(List<Usuario> usuariosSeleccionados) {
@@ -82,15 +81,15 @@ public class QuienParticipaDialogFragment extends DialogFragment {
         List<Usuario> usuarios = getUsuariosFromGrupo(idGrupo);
         final ListView lstQuienPaga = (ListView) dialogQuienParticipa.findViewById(R.id.lstQuienParticipa);
 
-        final QuienParticipaAdapter adapter =
-                new QuienParticipaAdapter(getActivity(), R.layout.dialog_quien_participa, usuarios, usuariosSeleccionados);
+        final SelectUsuariosYCantidadAdapter adapter =
+                new SelectUsuariosYCantidadAdapter(getActivity(), R.layout.dialog_quien_participa, usuarios, usuariosSeleccionados);
 
         lstQuienPaga.setAdapter(adapter);
 
         builder.setMessage(R.string.label_compra_quien_participa)
                 .setPositiveButton(R.string.action_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mCallback.onUsuariosSelectedChange(adapter.getUsuariosSeleccionados());
+                        mCallback.onUsuariosParticipaSelectedChange(adapter.getUsuariosSeleccionados());
                         QuienParticipaDialogFragment.this.dismiss();
                     }
                 })
@@ -112,10 +111,10 @@ public class QuienParticipaDialogFragment extends DialogFragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mCallback = (OnUsuariosSelectedChangeListener) activity;
+            mCallback = (OnUsuariosParticipaSelectedChangeListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnUsuariosSelectedChangeListener");
+                    + " must implement OnUsuariosParticipaSelectedChangeListener");
         }
     }
 
