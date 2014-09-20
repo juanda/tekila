@@ -55,7 +55,7 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
                 if(chkUsuario.isChecked()) {
                     etxtCantidad.setVisibility(View.VISIBLE);
                     etxtCantidad.requestFocus();
-                    usuariosSeleccionados.add(usuario);
+                    if(!etxtCantidad.getText().equals("")) usuariosSeleccionados.add(usuario);
 
                 }else{
                     etxtCantidad.setText("");
@@ -99,7 +99,7 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
 
     private boolean userIsInSelectedList(Usuario usuario){
         for(Usuario u: usuariosSeleccionados){
-            if(usuario.getId() == u.getId()){
+            if(u.getCantidadAux() != null && usuario.getId() == u.getId()){
                 return true;
             }
         }
