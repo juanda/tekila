@@ -40,19 +40,19 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
         final Usuario usuario = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_quien_participa_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_usuarios_y_cantidad_item, parent, false);
         }
         // Lookup view for data population
-        TextView txtQuienParticipa = (TextView) convertView.findViewById(R.id.txtDialogQuienParticipaUsuario);
-        final CheckBox chkQuienParticipa = (CheckBox) convertView.findViewById(R.id.chkDialogQuienParticipaUsuario);
-        final EditText etxtCantidad = (EditText) convertView.findViewById(R.id.etxtDialogQuienParticipaCantidad);
+        TextView txtUsuario = (TextView) convertView.findViewById(R.id.txtUsuariosYCantidadUsuario);
+        final CheckBox chkUsuario = (CheckBox) convertView.findViewById(R.id.chkUsuariosYCantidadUsuario);
+        final EditText etxtCantidad = (EditText) convertView.findViewById(R.id.etxtUsuariosYCantidadCantidad);
 
-        initializeWidgets(txtQuienParticipa, chkQuienParticipa, etxtCantidad, usuario);
+        initializeWidgets(txtUsuario, chkUsuario, etxtCantidad, usuario);
 
-        chkQuienParticipa.setOnClickListener(new View.OnClickListener() {
+        chkUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(chkQuienParticipa.isChecked()) {
+                if(chkUsuario.isChecked()) {
                     etxtCantidad.setVisibility(View.VISIBLE);
                     etxtCantidad.requestFocus();
                     usuariosSeleccionados.add(usuario);
@@ -81,17 +81,17 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
         return convertView;
     }
 
-    private void initializeWidgets(TextView txtQuienParticipa, CheckBox chkQuienParticipa, EditText etxtCantidad, Usuario usuario){
-        txtQuienParticipa.setText(usuario.getNombre());
+    private void initializeWidgets(TextView txtUsuario, CheckBox chkUsuario, EditText etxtCantidad, Usuario usuario){
+        txtUsuario.setText(usuario.getNombre());
         etxtCantidad.setVisibility(View.INVISIBLE);
         if(userIsInSelectedList(usuario)){
             usuario.setCantidadAux(usuariosSeleccionados.get(usuariosSeleccionados.indexOf(usuario)).getCantidadAux());
-            chkQuienParticipa.setChecked(true);
+            chkUsuario.setChecked(true);
             etxtCantidad.setText(String.valueOf(usuario.getCantidadAux()));
             etxtCantidad.setVisibility(View.VISIBLE);
 
         }else{
-            chkQuienParticipa.setChecked(false);
+            chkUsuario.setChecked(false);
             etxtCantidad.setText("");
         }
     }

@@ -7,8 +7,8 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/chkDialogQuienPagaUsuario"
-        android:layout_alignBottom="@+id/txtDialogQuienPagaUsuario"
+        android:id="@+id/chkUsuariosYCantidadUsuario"
+        android:layout_alignBottom="@+id/txtUsuariosYCantidadUsuario"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -17,17 +17,17 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Carolina"
-        android:id="@+id/txtDialogQuienPagaUsuario"
-        android:layout_toEndOf="@+id/chkDialogQuienPagaUsuario"
+        android:id="@+id/txtUsuariosYCantidadUsuario"
+        android:layout_toEndOf="@+id/chkUsuariosYCantidadUsuario"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/chkDialogQuienPagaUsuario" />
+        android:layout_toRightOf="@+id/chkUsuariosYCantidadUsuario" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="7"
-        android:id="@+id/etxtDialogQuienPagaCantidad"
+        android:id="@+id/etxtUsuariosYCantidadCantidad"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

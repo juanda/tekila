@@ -32,10 +32,15 @@ public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
 
     private static final String ID_GRUPO = "idGrupo";
     private static final String TITLE = "title";
+    private static final String MODO = "modo";
     private static final String USUARIOS_SELCCIONADOS = "usuariosSeleccionados";
+
+    public static final int MODO_PAGO = 0;
+    public static final int MODO_PARTICIPACION = 1;
 
     private Long idGrupo;
     private String title;
+    private int modo;
     List<Usuario> usuariosSeleccionados;
     OnUsuariosSelectedChangeListener mCallback;
 
@@ -58,11 +63,15 @@ public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
      * @param uSeleccionados Parameter 2.
      * @return A new instance of fragment QuienParticipaDialog.
      */
-    public static SelectUsuariosYCantidadDialogFragment newInstance(Long idGrupo, List<Usuario> uSeleccionados, String title ) {
+    public static SelectUsuariosYCantidadDialogFragment newInstance(Long idGrupo,
+                                                                    List<Usuario> uSeleccionados,
+                                                                    String title,
+                                                                    int modo) {
         SelectUsuariosYCantidadDialogFragment fragment = new SelectUsuariosYCantidadDialogFragment();
         Bundle args = new Bundle();
         args.putLong(ID_GRUPO, idGrupo);
         args.putString(TITLE, title);
+        args.putInt(MODO, modo);
         fragment.setUsuariosSeleccionados(uSeleccionados);
         fragment.setArguments(args);
         return fragment;
@@ -75,25 +84,34 @@ public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         idGrupo = getArguments().getLong(ID_GRUPO);
         title = getArguments().getString(TITLE);
+        modo = getArguments().getInt(MODO);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialogQuienParticipa = inflater.inflate(R.layout.dialog_quien_participa, null);
+        final View dialogQuienParticipa = inflater.inflate(R.layout.dialog_usuarios_y_cantidad, null);
         builder.setView(dialogQuienParticipa);
 
         List<Usuario> usuarios = getUsuariosFromGrupo(idGrupo);
-        final ListView lstQuienPaga = (ListView) dialogQuienParticipa.findViewById(R.id.lstQuienParticipa);
+        final ListView lstQuienPaga = (ListView) dialogQuienParticipa.findViewById(R.id.lstUsuariosYCantidad);
 
         final SelectUsuariosYCantidadAdapter adapter =
-                new SelectUsuariosYCantidadAdapter(getActivity(), R.layout.dialog_quien_participa, usuarios, usuariosSeleccionados);
+                new SelectUsuariosYCantidadAdapter(getActivity(), R.layout.dialog_usuarios_y_cantidad, usuarios, usuariosSeleccionados);
 
         lstQuienPaga.setAdapter(adapter);
 
         builder.setMessage(title)
                 .setPositiveButton(R.string.action_OK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mCallback.onUsuariosParticipaSelectedChange(adapter.getUsuariosSeleccionados());
+                        switch (modo){
+                            case MODO_PAGO:
+                                mCallback.onUsuariosPagoSelectedChange(adapter.getUsuariosSeleccionados());
+                                break;
+                            case MODO_PARTICIPACION:
+                            default:
+                                mCallback.onUsuariosParticipaSelectedChange(adapter.getUsuariosSeleccionados());
+
+                        }
                         SelectUsuariosYCantidadDialogFragment.this.dismiss();
                     }
                 })
@@ -108,9 +126,6 @@ public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    public void setCallback(Callable<Void> callback){
-        mCallback = callback;
-    }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

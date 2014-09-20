@@ -13,7 +13,7 @@ import java.util.List;
 import jazzyweb.tekila.model.Usuario;
 
 
-public class AddCompraAction extends Activity implements QuienPagaDialogFragment.OnUsuariosPagoSelectedChangeListener, QuienParticipaDialogFragment.OnUsuariosParticipaSelectedChangeListener {
+public class AddCompraAction extends Activity implements SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener {
 
     private List<Usuario> usuariosPagosSeleccionados;
     private List<Usuario> usuariosParticipaSeleccionados;
@@ -38,13 +38,16 @@ public class AddCompraAction extends Activity implements QuienPagaDialogFragment
         lblQuienPaga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuienPagaDialogFragment dialog = new QuienPagaDialogFragment();
-
-                Bundle b = new Bundle();
-                b.putLong("idGrupo", idGrupo);
-
-                dialog.setArguments(b);
-                dialog.setUsuariosSeleccionados(usuariosPagosSeleccionados);
+                String title = getResources().getString(R.string.label_compra_quien_paga);
+                SelectUsuariosYCantidadDialogFragment dialog =
+                        SelectUsuariosYCantidadDialogFragment.newInstance(idGrupo, usuariosPagosSeleccionados, title, SelectUsuariosYCantidadDialogFragment.MODO_PAGO);
+//                QuienPagaDialogFragment dialog = new QuienPagaDialogFragment();
+//
+//                Bundle b = new Bundle();
+//                b.putLong("idGrupo", idGrupo);
+//
+//                dialog.setArguments(b);
+//                dialog.setUsuariosSeleccionados(usuariosPagosSeleccionados);
 
                 dialog.show(getFragmentManager(),"tag");
             }
@@ -53,7 +56,11 @@ public class AddCompraAction extends Activity implements QuienPagaDialogFragment
         lblQuienParticipa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuienParticipaDialogFragment dialog = QuienParticipaDialogFragment.newInstance(idGrupo, usuariosParticipaSeleccionados);
+                String title = getResources().getString(R.string.label_compra_quien_participa);
+                SelectUsuariosYCantidadDialogFragment dialog =
+                        SelectUsuariosYCantidadDialogFragment.newInstance(idGrupo, usuariosParticipaSeleccionados, title, SelectUsuariosYCantidadDialogFragment.MODO_PARTICIPACION);
+//
+//                QuienParticipaDialogFragment dialog = QuienParticipaDialogFragment.newInstance(idGrupo, usuariosParticipaSeleccionados);
                 dialog.show(getFragmentManager(),"tag");
             }
         });
