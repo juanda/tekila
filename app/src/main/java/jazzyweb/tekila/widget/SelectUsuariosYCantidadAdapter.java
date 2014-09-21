@@ -11,6 +11,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
     private static final String TXT_TODOS = "Todos";
     private static final String TXT_CURRENCY = "€";
 
-    private List<Usuario> usuariosSeleccionados;
+    protected List<Usuario> usuariosSeleccionados;
 
     public SelectUsuariosYCantidadAdapter(Context context, int resource, List<Usuario> usuarios, List<Usuario> ususSelect) {
         super(context, resource, usuarios);
@@ -49,39 +51,15 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
 
         initializeWidgets(txtUsuario, chkUsuario, etxtCantidad, usuario);
 
-        chkUsuario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(chkUsuario.isChecked()) {
-                    etxtCantidad.setVisibility(View.VISIBLE);
-                    etxtCantidad.requestFocus();
-                    if(!etxtCantidad.getText().equals("")) usuariosSeleccionados.add(usuario);
+        chkUsuario.setOnClickListener(new OnClickListener(chkUsuario, etxtCantidad, usuario));
 
-                }else{
-                    etxtCantidad.setText("");
-                    etxtCantidad.setVisibility(View.INVISIBLE);
-                    usuariosSeleccionados.remove(usuario);
-                }
-            }
-        });
-
-        etxtCantidad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                String strCantidad = etxtCantidad.getText().toString();
-                if(!strCantidad.matches("")) {
-                    Double cantidad = Double.parseDouble(String.valueOf(etxtCantidad.getText()));
-                    Usuario u = getUsuarioEqualTo(usuario);
-                    u.setCantidadAux(cantidad);
-                }
-            }
-        });
+        etxtCantidad.setOnFocusChangeListener(new OnFocusChangeListener(etxtCantidad, usuario));
 
         // Return the completed view to render on screen
         return convertView;
     }
 
-    private void initializeWidgets(TextView txtUsuario, CheckBox chkUsuario, EditText etxtCantidad, Usuario usuario){
+    protected void initializeWidgets(TextView txtUsuario, CheckBox chkUsuario, EditText etxtCantidad, Usuario usuario){
         txtUsuario.setText(usuario.getNombre());
         etxtCantidad.setVisibility(View.INVISIBLE);
         if(userIsInSelectedList(usuario)){
@@ -96,8 +74,53 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
         }
     }
 
+    protected class OnClickListener implements   View.OnClickListener {
 
-    private boolean userIsInSelectedList(Usuario usuario){
+        private CheckBox chkUsuario;
+        private TextView etxtCantidad;
+        private Usuario usuario;
+
+        public OnClickListener(CheckBox chkUsuario, TextView etxtCantidad, Usuario usuario){
+            this.chkUsuario = chkUsuario;
+            this.etxtCantidad = etxtCantidad;
+            this.usuario = usuario;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(chkUsuario.isChecked()) {
+                etxtCantidad.setVisibility(View.VISIBLE);
+                etxtCantidad.requestFocus();
+                if(!etxtCantidad.getText().equals("")) usuariosSeleccionados.add(usuario);
+
+            }else{
+                etxtCantidad.setText("");
+                etxtCantidad.setVisibility(View.INVISIBLE);
+                usuariosSeleccionados.remove(usuario);
+            }
+        }
+    }
+
+    protected class OnFocusChangeListener implements View.OnFocusChangeListener {
+
+        private TextView etxtCantidad;
+        private Usuario usuario;
+
+        public OnFocusChangeListener(TextView etxtCantidad, Usuario usuario){
+            this.etxtCantidad = etxtCantidad;
+            this.usuario = usuario;
+        }
+        @Override
+        public void onFocusChange(android.view.View view, boolean b) {
+            String strCantidad = etxtCantidad.getText().toString();
+            if(!strCantidad.matches("")) {
+                Double cantidad = Double.parseDouble(String.valueOf(etxtCantidad.getText()));
+                Usuario u = getUsuarioEqualTo(usuario);
+                u.setCantidadAux(cantidad);
+            }
+        }
+    }
+    protected boolean userIsInSelectedList(Usuario usuario){
         for(Usuario u: usuariosSeleccionados){
             if(u.getCantidadAux() != null && usuario.getId() == u.getId()){
                 return true;

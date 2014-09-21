@@ -6,15 +6,22 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.model.Usuario;
+import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
+import jazzyweb.tekila.widget.UsuariosResumenAdapter;
 
 
-public class AddCompraAction extends Activity implements SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener {
+public class AddCompraAction extends Activity {
 
+    private List<Usuario> usuarios;
+    private List<Usuario> usuarios2;
     private List<Usuario> usuariosPagosSeleccionados;
     private List<Usuario> usuariosParticipaSeleccionados;
 
@@ -27,10 +34,11 @@ public class AddCompraAction extends Activity implements SelectUsuariosYCantidad
 
         Bundle b = getIntent().getExtras();
         idGrupo = b.getLong("idGrupo");
+        usuarios = getUsuariosFromGrupo(idGrupo);
+        usuarios2 = getUsuariosFromGrupo(idGrupo);
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
 
         final TextView lblQuienPaga = (TextView) findViewById(R.id.lblQuienLoHaPagado);
         final TextView lblQuienParticipa = (TextView) findViewById(R.id.lblQuienParticipa);
@@ -39,15 +47,18 @@ public class AddCompraAction extends Activity implements SelectUsuariosYCantidad
             @Override
             public void onClick(View view) {
                 String title = getResources().getString(R.string.label_compra_quien_paga);
+
+                SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener listener = new SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener() {
+                    @Override
+                    public void onUsuariosSelectedChange(List<Usuario> result) {
+                        usuariosPagosSeleccionados = result;
+                    }
+                };
+
+                SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuarios, usuariosPagosSeleccionados);
+
                 SelectUsuariosYCantidadDialogFragment dialog =
-                        SelectUsuariosYCantidadDialogFragment.newInstance(idGrupo, usuariosPagosSeleccionados, title, SelectUsuariosYCantidadDialogFragment.MODO_PAGO);
-//                QuienPagaDialogFragment dialog = new QuienPagaDialogFragment();
-//
-//                Bundle b = new Bundle();
-//                b.putLong("idGrupo", idGrupo);
-//
-//                dialog.setArguments(b);
-//                dialog.setUsuariosSeleccionados(usuariosPagosSeleccionados);
+                        SelectUsuariosYCantidadDialogFragment.newInstance(usuarios, title, listener, adapter);
 
                 dialog.show(getFragmentManager(),"tag");
             }
@@ -57,10 +68,18 @@ public class AddCompraAction extends Activity implements SelectUsuariosYCantidad
             @Override
             public void onClick(View view) {
                 String title = getResources().getString(R.string.label_compra_quien_participa);
+                SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener listener =
+                        new SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener() {
+                            @Override
+                            public void onUsuariosSelectedChange(List<Usuario> result) {
+                                usuariosParticipaSeleccionados = result;
+                            }
+                        };
+                SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuarios2, usuariosParticipaSeleccionados);
+
                 SelectUsuariosYCantidadDialogFragment dialog =
-                        SelectUsuariosYCantidadDialogFragment.newInstance(idGrupo, usuariosParticipaSeleccionados, title, SelectUsuariosYCantidadDialogFragment.MODO_PARTICIPACION);
-//
-//                QuienParticipaDialogFragment dialog = QuienParticipaDialogFragment.newInstance(idGrupo, usuariosParticipaSeleccionados);
+                        SelectUsuariosYCantidadDialogFragment.newInstance(usuarios, title, listener, adapter);
+
                 dialog.show(getFragmentManager(),"tag");
             }
         });
@@ -87,14 +106,12 @@ public class AddCompraAction extends Activity implements SelectUsuariosYCantidad
         return super.onOptionsItemSelected(item);
     }
 
+    private List<Usuario> getUsuariosFromGrupo(Long idGrupo){
+        DataBaseManager dataBaseManager = new DataBaseManager(this);
+        dataBaseManager.open();
 
-    @Override
-    public void onUsuariosPagoSelectedChange(List<Usuario> uSeleccionados) {
-        usuariosPagosSeleccionados = uSeleccionados;
-    }
+        List<Usuario> usuarios = dataBaseManager.getUsuariosFromGrupo(idGrupo);
 
-    @Override
-    public void onUsuariosParticipaSelectedChange(List<Usuario> uSeleccionados) {
-        usuariosParticipaSeleccionados = uSeleccionados;
+        return usuarios;
     }
 }
