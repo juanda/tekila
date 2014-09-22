@@ -37,23 +37,23 @@
         android:text="@string/label_compra_quien_paga"
         android:id="@+id/btnQuienPaga"
         android:layout_below="@+id/lblCuando"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="45dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignRight="@+id/lblConcepto"
+        android:layout_alignEnd="@+id/lblConcepto"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_compra_quien_participa"
         android:id="@+id/btnQuienParticipa"
-        android:layout_below="@+id/btnQuienPaga"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="71dp"
-        android:layout_alignRight="@+id/btnQuienPaga"
-        android:layout_alignEnd="@+id/btnQuienPaga" />
+        android:layout_alignTop="@+id/btnQuienPaga"
+        android:layout_toRightOf="@+id/btnQuienPaga"
+        android:layout_toEndOf="@+id/btnQuienPaga"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/btnQuienPaga" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -75,5 +75,39 @@
         android:layout_alignBottom="@+id/lblCuando"
         android:layout_alignRight="@+id/etxtConcepto"
         android:layout_alignEnd="@+id/etxtConcepto" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/lblQuienPaga"
+        android:layout_below="@+id/btnQuienPaga"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="23dp"
+        android:text="Pagan: juanda, paula" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Participan: juanda, paula, ruth"
+        android:id="@+id/lblQuienParticipa"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Total Compra: 143 €"
+        android:id="@+id/lblTotalCompra"
+        android:layout_below="@+id/lblQuienParticipa"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="28dp"
+        android:phoneNumber="true" />
+
 
 </RelativeLayout>

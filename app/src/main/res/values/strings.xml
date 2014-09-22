@@ -9,7 +9,7 @@
     <string name="action_save_compra">Guardar Compra</string>
     <string name="action_OK">OK</string>
 
-    <string name="label_compra_quien_paga">¿Quién lo ha pagado?</string>
+    <string name="label_compra_quien_paga">¿Quién paga?</string>
     <string name="label_compra_quien_participa">¿Quién participa?</string>
     <string name="label_compra_cantidad">¿Cuánto ha costado?</string>
     <string name="label_compra_concepto">¿Qué se ha comprado?</string>

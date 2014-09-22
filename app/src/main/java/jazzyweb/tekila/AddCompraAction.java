@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,8 +45,9 @@ public class AddCompraAction extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        final TextView btnQuienPaga = (TextView) findViewById(R.id.btnQuienPaga);
-        final TextView btnQuienParticipa = (TextView) findViewById(R.id.btnQuienParticipa);
+        final Button btnQuienPaga = (Button) findViewById(R.id.btnQuienPaga);
+        final Button btnQuienParticipa = (Button) findViewById(R.id.btnQuienParticipa);
+
 
         btnQuienPaga.setOnClickListener(new View.OnClickListener() {
             @Override
