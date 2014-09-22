@@ -14,6 +14,7 @@ import java.util.List;
 
 import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.model.Usuario;
+import jazzyweb.tekila.widget.ParticipantesAdapter;
 import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 import jazzyweb.tekila.widget.UsuariosResumenAdapter;
 
@@ -23,7 +24,9 @@ public class AddCompraAction extends Activity {
     private List<Usuario> usuarios;
     private List<Usuario> usuarios2;
     private List<Usuario> usuariosPagosSeleccionados;
+    private List<Usuario> usuariosPagosSeleccionadosPrev;
     private List<Usuario> usuariosParticipaSeleccionados;
+    private List<Usuario> usuariosParticipaSeleccionadosPrev;
 
     private Long idGrupo;
 
@@ -52,7 +55,13 @@ public class AddCompraAction extends Activity {
                     @Override
                     public void onUsuariosSelectedChange(List<Usuario> result) {
                         usuariosPagosSeleccionados = result;
+                        usuariosPagosSeleccionadosPrev = Usuario.clone(usuariosPagosSeleccionados);
                     }
+
+                    public void resetUsuariosSeleccionados(){
+                        usuariosPagosSeleccionados = Usuario.clone(usuariosPagosSeleccionadosPrev);
+                    }
+
                 };
 
                 SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuarios, usuariosPagosSeleccionados);
@@ -73,9 +82,14 @@ public class AddCompraAction extends Activity {
                             @Override
                             public void onUsuariosSelectedChange(List<Usuario> result) {
                                 usuariosParticipaSeleccionados = result;
+                                usuariosParticipaSeleccionadosPrev = Usuario.clone(usuariosParticipaSeleccionados);
+                            }
+
+                            public void resetUsuariosSeleccionados(){
+                                usuariosParticipaSeleccionados = Usuario.clone(usuariosParticipaSeleccionadosPrev);
                             }
                         };
-                SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuarios2, usuariosParticipaSeleccionados);
+                ParticipantesAdapter adapter = new ParticipantesAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuarios2, usuariosParticipaSeleccionados);
 
                 SelectUsuariosYCantidadDialogFragment dialog =
                         SelectUsuariosYCantidadDialogFragment.newInstance(usuarios, title, listener, adapter);

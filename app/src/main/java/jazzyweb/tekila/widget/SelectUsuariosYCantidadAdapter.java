@@ -137,5 +137,4 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
         }
         return null;
     }
-
 }

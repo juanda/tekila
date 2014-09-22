@@ -39,6 +39,7 @@ public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
 
     public interface OnUsuariosSelectedChangeListener{
         public void onUsuariosSelectedChange(List<Usuario> result);
+        public void resetUsuariosSeleccionados();
     }
 
     public void setUsuarios(List<Usuario> usuarios){
@@ -104,7 +105,9 @@ public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
                 })
                 .setNegativeButton(R.string.action_cancelar, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
+                        mCallback.resetUsuariosSeleccionados();
+
+                        SelectUsuariosYCantidadDialogFragment.this.dismiss();
                     }
                 });
 

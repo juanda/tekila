@@ -1,5 +1,6 @@
 package jazzyweb.tekila.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
@@ -98,5 +99,21 @@ public class Usuario {
         Usuario u = (Usuario) o;
 
         return u.getId() == id;
+    }
+
+    public static List<Usuario> clone(List<Usuario> usuarios){
+
+        ArrayList<Usuario> usuariosCloned = new ArrayList<Usuario>();
+
+        for(Usuario u: usuarios){
+            Usuario uNew = new Usuario();
+            uNew.id = u.id;
+            uNew.nombre = u.nombre;
+            uNew.cantidadAux = u.cantidadAux;
+
+            usuariosCloned.add(uNew);
+        }
+
+        return usuariosCloned;
     }
 }
