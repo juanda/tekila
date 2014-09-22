@@ -70,6 +70,7 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
 
         }else{
             chkUsuario.setChecked(false);
+            usuario.setCantidadAux(null);
             etxtCantidad.setText("");
         }
     }

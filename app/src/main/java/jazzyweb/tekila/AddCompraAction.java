@@ -21,8 +21,8 @@ import jazzyweb.tekila.widget.UsuariosResumenAdapter;
 
 public class AddCompraAction extends Activity {
 
-    private List<Usuario> usuarios;
-    private List<Usuario> usuarios2;
+    private List<Usuario> usuariosParaPagos;
+    private List<Usuario> usuariosParaParticipaciones;
     private List<Usuario> usuariosPagosSeleccionados;
     private List<Usuario> usuariosPagosSeleccionadosPrev;
     private List<Usuario> usuariosParticipaSeleccionados;
@@ -37,16 +37,17 @@ public class AddCompraAction extends Activity {
 
         Bundle b = getIntent().getExtras();
         idGrupo = b.getLong("idGrupo");
-        usuarios = getUsuariosFromGrupo(idGrupo);
-        usuarios2 = getUsuariosFromGrupo(idGrupo);
+        usuariosParaPagos = getUsuariosFromGrupo(idGrupo);
+        usuariosParaParticipaciones = Usuario.clone(usuariosParaPagos);
+        usuariosParticipaSeleccionados = Usuario.clone(usuariosParaPagos);
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        final TextView lblQuienPaga = (TextView) findViewById(R.id.lblQuienLoHaPagado);
-        final TextView lblQuienParticipa = (TextView) findViewById(R.id.lblQuienParticipa);
+        final TextView btnQuienPaga = (TextView) findViewById(R.id.btnQuienPaga);
+        final TextView btnQuienParticipa = (TextView) findViewById(R.id.btnQuienParticipa);
 
-        lblQuienPaga.setOnClickListener(new View.OnClickListener() {
+        btnQuienPaga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = getResources().getString(R.string.label_compra_quien_paga);
@@ -64,16 +65,16 @@ public class AddCompraAction extends Activity {
 
                 };
 
-                SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuarios, usuariosPagosSeleccionados);
+                SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaPagos, usuariosPagosSeleccionados);
 
                 SelectUsuariosYCantidadDialogFragment dialog =
-                        SelectUsuariosYCantidadDialogFragment.newInstance(usuarios, title, listener, adapter);
+                        SelectUsuariosYCantidadDialogFragment.newInstance(title, listener, adapter);
 
                 dialog.show(getFragmentManager(),"tag");
             }
         });
 
-        lblQuienParticipa.setOnClickListener(new View.OnClickListener() {
+        btnQuienParticipa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = getResources().getString(R.string.label_compra_quien_participa);
@@ -89,10 +90,10 @@ public class AddCompraAction extends Activity {
                                 usuariosParticipaSeleccionados = Usuario.clone(usuariosParticipaSeleccionadosPrev);
                             }
                         };
-                ParticipantesAdapter adapter = new ParticipantesAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuarios2, usuariosParticipaSeleccionados);
+                ParticipantesAdapter adapter = new ParticipantesAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaParticipaciones, usuariosParticipaSeleccionados);
 
                 SelectUsuariosYCantidadDialogFragment dialog =
-                        SelectUsuariosYCantidadDialogFragment.newInstance(usuarios, title, listener, adapter);
+                        SelectUsuariosYCantidadDialogFragment.newInstance(title, listener, adapter);
 
                 dialog.show(getFragmentManager(),"tag");
             }

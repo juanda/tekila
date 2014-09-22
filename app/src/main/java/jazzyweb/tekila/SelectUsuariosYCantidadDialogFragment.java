@@ -33,17 +33,12 @@ import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
 
     private String title;
-    List<Usuario> usuarios;
     OnUsuariosSelectedChangeListener mCallback;
     SelectUsuariosYCantidadAdapter adapter;
 
     public interface OnUsuariosSelectedChangeListener{
         public void onUsuariosSelectedChange(List<Usuario> result);
         public void resetUsuariosSeleccionados();
-    }
-
-    public void setUsuarios(List<Usuario> usuarios){
-        this.usuarios = usuarios;
     }
 
     public void setTitle(String title){
@@ -62,16 +57,13 @@ public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param usuarios Parameter 1.
      * @return A new instance of fragment SelectUsuariosYCantidadDialogFragment.
      */
-    public static SelectUsuariosYCantidadDialogFragment newInstance(List<Usuario> usuarios,
-                                                                    String title,
+    public static SelectUsuariosYCantidadDialogFragment newInstance(String title,
                                                                     OnUsuariosSelectedChangeListener callback,
                                                                     SelectUsuariosYCantidadAdapter adapter
                                                                     ) {
         SelectUsuariosYCantidadDialogFragment fragment = new SelectUsuariosYCantidadDialogFragment();
-        fragment.setUsuarios(usuarios);
         fragment.setTitle(title);
         fragment.setmCallback(callback);
         fragment.setAdapter(adapter);
