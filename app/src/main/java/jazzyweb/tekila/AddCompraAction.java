@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,14 +46,12 @@ public class AddCompraAction extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        final Button btnQuienPaga = (Button) findViewById(R.id.btnQuienPaga);
-        final Button btnQuienParticipa = (Button) findViewById(R.id.btnQuienParticipa);
-        final TextView lblQuienPaga = (TextView) findViewById(R.id.lblQuienPaga);
-        final TextView lblQuienParticipa = (TextView) findViewById(R.id.lblQuienParticipa);
+        final EditText etxtQuienPaga = (EditText) findViewById(R.id.etxtQuienPaga);
+        final EditText etxtQuienParticipa = (EditText) findViewById(R.id.etxtQuienParticipa);
         final TextView lblTotalCompra = (TextView) findViewById(R.id.lblTotalCompra);
 
 
-        btnQuienPaga.setOnClickListener(new View.OnClickListener() {
+        etxtQuienPaga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = getResources().getString(R.string.label_compra_quien_paga);
@@ -62,13 +61,13 @@ public class AddCompraAction extends Activity {
                     public void onUsuariosSelectedChange(List<Usuario> result) {
                         usuariosPagosSeleccionados = getUsuariosConCantidadNoNula(result);
                         usuariosPagosSeleccionadosPrev = Usuario.clone(usuariosPagosSeleccionados);
-                        lblQuienPaga.setText(createTextPagadores());
+                        etxtQuienPaga.setText(createTextPagadores());
                         lblTotalCompra.setText(String.valueOf(getTotalCompra(usuariosPagosSeleccionados)));
                     }
 
                     public void resetUsuariosSeleccionados(){
                         usuariosPagosSeleccionados = Usuario.clone(usuariosPagosSeleccionadosPrev);
-                        lblQuienPaga.setText(createTextPagadores());
+                        etxtQuienPaga.setText(createTextPagadores());
                     }
 
                 };
@@ -82,7 +81,7 @@ public class AddCompraAction extends Activity {
             }
         });
 
-        btnQuienParticipa.setOnClickListener(new View.OnClickListener() {
+        etxtQuienParticipa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = getResources().getString(R.string.label_compra_quien_participa);
@@ -92,12 +91,12 @@ public class AddCompraAction extends Activity {
                             public void onUsuariosSelectedChange(List<Usuario> result) {
                                 usuariosParticipaSeleccionados = result;
                                 usuariosParticipaSeleccionadosPrev = Usuario.clone(usuariosParticipaSeleccionados);
-                                lblQuienParticipa.setText(createTextParticipantes());
+                                etxtQuienParticipa.setText(createTextParticipantes());
                             }
 
                             public void resetUsuariosSeleccionados(){
                                 usuariosParticipaSeleccionados = Usuario.clone(usuariosParticipaSeleccionadosPrev);
-                                lblQuienParticipa.setText(createTextParticipantes());
+                                etxtQuienParticipa.setText(createTextParticipantes());
                             }
                         };
                 ParticipantesAdapter adapter = new ParticipantesAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaParticipaciones, usuariosParticipaSeleccionados);
@@ -141,7 +140,7 @@ public class AddCompraAction extends Activity {
     }
 
     private String createTextPagadores(){
-        String texto = "Pagan: ";
+        String texto = "";
 
         int usuariosSize = usuariosPagosSeleccionados.size();
         for(int i = 0; i < usuariosSize ; i++){
@@ -155,7 +154,7 @@ public class AddCompraAction extends Activity {
     }
 
     private String createTextParticipantes(){
-        String texto = "Participan a partes iguales: ";
+        String texto = "";
 
         int usuariosSize = usuariosParticipaSeleccionados.size();
         if(usuariosSize == usuariosParaParticipaciones.size()){
