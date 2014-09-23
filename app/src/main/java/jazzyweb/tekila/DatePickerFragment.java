@@ -7,11 +7,7 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import junit.framework.Test;
-
 import java.util.Calendar;
-
-import jazzyweb.tekila.utils.StreamReader;
 
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {

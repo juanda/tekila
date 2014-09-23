@@ -20,6 +20,8 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_compra">Añadir Compra</string>
+    <string name="label_concepto_ejemplp">Por ejemplo, tabaco y tekila</string>
+    <string name="label_total_compra">Total:</string>
 
 
 </resources>

@@ -52,8 +52,8 @@ public class AddCompraAction extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        final TextView etxtQuienPaga = (TextView) findViewById(R.id.etxtQuienPaga);
-        final TextView etxtQuienParticipa = (TextView) findViewById(R.id.etxtQuienParticipa);
+        final TextView lblQuienPaga = (TextView) findViewById(R.id.lblQuienPaga);
+        final TextView lblQuienParticipa = (TextView) findViewById(R.id.lblQuienParticipa);
         final TextView lblTotalCompra = (TextView) findViewById(R.id.lblTotalCompra);
 
         final TextView lblDate = (TextView) findViewById(R.id.lblDate);
@@ -70,7 +70,7 @@ public class AddCompraAction extends Activity {
         });
 
 
-        etxtQuienPaga.setOnClickListener(new View.OnClickListener() {
+        lblQuienPaga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = getResources().getString(R.string.label_compra_quien_paga);
@@ -80,13 +80,13 @@ public class AddCompraAction extends Activity {
                     public void onUsuariosSelectedChange(List<Usuario> result) {
                         usuariosPagosSeleccionados = getUsuariosConCantidadNoNula(result);
                         usuariosPagosSeleccionadosPrev = Usuario.clone(usuariosPagosSeleccionados);
-                        etxtQuienPaga.setText(createTextPagadores());
+                        lblQuienPaga.setText(createTextPagadores());
                         lblTotalCompra.setText("Total: " + String.valueOf(getTotalCompra(usuariosPagosSeleccionados)));
                     }
 
                     public void resetUsuariosSeleccionados(){
                         usuariosPagosSeleccionados = Usuario.clone(usuariosPagosSeleccionadosPrev);
-                        etxtQuienPaga.setText(createTextPagadores());
+                        lblQuienPaga.setText(createTextPagadores());
                     }
 
                 };
@@ -100,7 +100,7 @@ public class AddCompraAction extends Activity {
             }
         });
 
-        etxtQuienParticipa.setOnClickListener(new View.OnClickListener() {
+        lblQuienParticipa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = getResources().getString(R.string.label_compra_quien_participa);
@@ -110,12 +110,12 @@ public class AddCompraAction extends Activity {
                             public void onUsuariosSelectedChange(List<Usuario> result) {
                                 usuariosParticipaSeleccionados = result;
                                 usuariosParticipaSeleccionadosPrev = Usuario.clone(usuariosParticipaSeleccionados);
-                                etxtQuienParticipa.setText(createTextParticipantes());
+                                lblQuienParticipa.setText(createTextParticipantes());
                             }
 
                             public void resetUsuariosSeleccionados(){
                                 usuariosParticipaSeleccionados = Usuario.clone(usuariosParticipaSeleccionadosPrev);
-                                etxtQuienParticipa.setText(createTextParticipantes());
+                                lblQuienParticipa.setText(createTextParticipantes());
                             }
                         };
                 ParticipantesAdapter adapter = new ParticipantesAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaParticipaciones, usuariosParticipaSeleccionados);

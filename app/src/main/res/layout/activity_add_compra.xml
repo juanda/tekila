@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,77 +9,127 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/title_activity_add_compra"
-        android:id="@+id/lblAddCompra"
-        android:textStyle="italic"
-        android:singleLine="false" />
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_compra_concepto"
-        android:id="@+id/lblConcepto" />
+        android:id="@+id/textView2"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editText" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/label_compra_fecha"
-        android:id="@+id/textView2" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="10/12/2014, 10:24:22"
-        android:id="@+id/lblDate"
-        style="@android:style/Widget.Holo.Light.Spinner" />
+        android:id="@+id/lblConcepto"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/label_concepto_ejemplp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_compra_quien_paga"
-        android:id="@+id/lblQuienPaga" />
+        android:id="@+id/textView3"
+        android:layout_below="@+id/lblConcepto"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etxtQuienPaga"
-        android:clickable="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/lblQuienPaga"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/label_inserta_pagadores"
         style="@android:style/Widget.Holo.Light.Spinner"
-        android:textSize="18sp"
-        android:textAlignment="2"
-        android:hint="@string/label_inserta_pagadores" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_compra_quien_participa"
-        android:id="@+id/lblQuienParticipa" />
+        android:id="@+id/textView4"
+        android:layout_below="@+id/lblQuienPaga"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etxtQuienParticipa"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/lblQuienParticipa"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/label_participantes_todos"
         style="@android:style/Widget.Holo.Light.Spinner"
-        android:textSize="18sp"
-        android:hint="@string/label_participantes_todos" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/label_compra_fecha"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/lblQuienParticipa"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="10/12/2014"
+        android:id="@+id/lblDate"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        style="@android:style/Widget.Holo.Light.Spinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="10:45:33"
+        android:id="@+id/lbl"
+        android:layout_alignTop="@+id/lblDate"
+        android:layout_centerHorizontal="true"
+        style="@android:style/Widget.Holo.Light.Spinner" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_compra_cantidad"
-        android:id="@+id/lblTotalCompra"
-        android:layout_gravity="right" />
+        android:text="@string/label_total_compra"
+        android:id="@+id/textView6"
+        android:layout_below="@+id/lblDate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="29dp" />
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/lblTotalCompra"
+        android:layout_alignTop="@+id/textView6"
+        android:layout_toRightOf="@+id/textView6"
+        android:layout_toEndOf="@+id/textView6" />
+</RelativeLayout>
