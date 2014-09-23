@@ -2,16 +2,21 @@ package jazzyweb.tekila;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import jazzyweb.tekila.db.DataBaseManager;
@@ -32,6 +37,7 @@ public class AddCompraAction extends Activity {
 
     private Long idGrupo;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +52,22 @@ public class AddCompraAction extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        final EditText etxtQuienPaga = (EditText) findViewById(R.id.etxtQuienPaga);
-        final EditText etxtQuienParticipa = (EditText) findViewById(R.id.etxtQuienParticipa);
+        final TextView etxtQuienPaga = (TextView) findViewById(R.id.etxtQuienPaga);
+        final TextView etxtQuienParticipa = (TextView) findViewById(R.id.etxtQuienParticipa);
         final TextView lblTotalCompra = (TextView) findViewById(R.id.lblTotalCompra);
+
+        final TextView lblDate = (TextView) findViewById(R.id.lblDate);
+
+        lblDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerFragment datePickerFragment = new DatePickerFragment();
+
+                datePickerFragment.setTextView(lblDate);
+
+                datePickerFragment.show(getFragmentManager(), "datePicker");
+            }
+        });
 
 
         etxtQuienPaga.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +81,7 @@ public class AddCompraAction extends Activity {
                         usuariosPagosSeleccionados = getUsuariosConCantidadNoNula(result);
                         usuariosPagosSeleccionadosPrev = Usuario.clone(usuariosPagosSeleccionados);
                         etxtQuienPaga.setText(createTextPagadores());
-                        lblTotalCompra.setText(String.valueOf(getTotalCompra(usuariosPagosSeleccionados)));
+                        lblTotalCompra.setText("Total: " + String.valueOf(getTotalCompra(usuariosPagosSeleccionados)));
                     }
 
                     public void resetUsuariosSeleccionados(){

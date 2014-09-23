@@ -31,13 +31,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/label_compra_fecha"
+        android:id="@+id/textView2" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="10/12/2014, 10:24:22"
+        android:id="@+id/lblDate"
+        style="@android:style/Widget.Holo.Light.Spinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_compra_quien_paga"
         android:id="@+id/lblQuienPaga" />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etxtQuienPaga" />
+        android:id="@+id/etxtQuienPaga"
+        android:clickable="true"
+        style="@android:style/Widget.Holo.Light.Spinner"
+        android:textSize="18sp"
+        android:textAlignment="2"
+        android:hint="@string/label_inserta_pagadores" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,16 +66,20 @@
         android:text="@string/label_compra_quien_participa"
         android:id="@+id/lblQuienParticipa" />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etxtQuienParticipa" />
+        android:id="@+id/etxtQuienParticipa"
+        style="@android:style/Widget.Holo.Light.Spinner"
+        android:textSize="18sp"
+        android:hint="@string/label_participantes_todos" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_compra_cantidad"
-        android:id="@+id/lblTotalCompra" />
+        android:id="@+id/lblTotalCompra"
+        android:layout_gravity="right" />
 
 </LinearLayout>
