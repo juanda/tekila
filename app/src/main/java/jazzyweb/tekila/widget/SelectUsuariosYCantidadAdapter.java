@@ -92,7 +92,7 @@ public class SelectUsuariosYCantidadAdapter extends ArrayAdapter<Usuario>{
             if(chkUsuario.isChecked()) {
                 etxtCantidad.setVisibility(View.VISIBLE);
                 etxtCantidad.requestFocus();
-                if(!etxtCantidad.getText().equals("")) usuariosSeleccionados.add(usuario);
+                usuariosSeleccionados.add(usuario);
 
             }else{
                 etxtCantidad.setText("");

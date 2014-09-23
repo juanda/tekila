@@ -85,7 +85,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="23dp"
-        android:text="Pagan: juanda, paula" />
+        android:text="Pagan: juanda, paula"
+        android:layout_alignRight="@+id/btnQuienParticipa"
+        android:layout_alignEnd="@+id/btnQuienParticipa" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -93,9 +95,13 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Participan: juanda, paula, ruth"
         android:id="@+id/lblQuienParticipa"
-        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/btnQuienParticipa"
+        android:layout_below="@+id/lblQuienPaga"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="47dp"
+        android:layout_alignRight="@+id/lblQuienPaga"
+        android:layout_alignEnd="@+id/lblQuienPaga" />
 
     <TextView
         android:layout_width="wrap_content"

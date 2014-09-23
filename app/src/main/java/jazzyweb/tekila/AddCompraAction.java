@@ -47,6 +47,9 @@ public class AddCompraAction extends Activity {
 
         final Button btnQuienPaga = (Button) findViewById(R.id.btnQuienPaga);
         final Button btnQuienParticipa = (Button) findViewById(R.id.btnQuienParticipa);
+        final TextView lblQuienPaga = (TextView) findViewById(R.id.lblQuienPaga);
+        final TextView lblQuienParticipa = (TextView) findViewById(R.id.lblQuienParticipa);
+        final TextView lblTotalCompra = (TextView) findViewById(R.id.lblTotalCompra);
 
 
         btnQuienPaga.setOnClickListener(new View.OnClickListener() {
@@ -57,12 +60,15 @@ public class AddCompraAction extends Activity {
                 SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener listener = new SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener() {
                     @Override
                     public void onUsuariosSelectedChange(List<Usuario> result) {
-                        usuariosPagosSeleccionados = result;
+                        usuariosPagosSeleccionados = getUsuariosConCantidadNoNula(result);
                         usuariosPagosSeleccionadosPrev = Usuario.clone(usuariosPagosSeleccionados);
+                        lblQuienPaga.setText(createTextPagadores());
+                        lblTotalCompra.setText(String.valueOf(getTotalCompra(usuariosPagosSeleccionados)));
                     }
 
                     public void resetUsuariosSeleccionados(){
                         usuariosPagosSeleccionados = Usuario.clone(usuariosPagosSeleccionadosPrev);
+                        lblQuienPaga.setText(createTextPagadores());
                     }
 
                 };
@@ -86,10 +92,12 @@ public class AddCompraAction extends Activity {
                             public void onUsuariosSelectedChange(List<Usuario> result) {
                                 usuariosParticipaSeleccionados = result;
                                 usuariosParticipaSeleccionadosPrev = Usuario.clone(usuariosParticipaSeleccionados);
+                                lblQuienParticipa.setText(createTextParticipantes());
                             }
 
                             public void resetUsuariosSeleccionados(){
                                 usuariosParticipaSeleccionados = Usuario.clone(usuariosParticipaSeleccionadosPrev);
+                                lblQuienParticipa.setText(createTextParticipantes());
                             }
                         };
                 ParticipantesAdapter adapter = new ParticipantesAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaParticipaciones, usuariosParticipaSeleccionados);
@@ -130,5 +138,56 @@ public class AddCompraAction extends Activity {
         List<Usuario> usuarios = dataBaseManager.getUsuariosFromGrupo(idGrupo);
 
         return usuarios;
+    }
+
+    private String createTextPagadores(){
+        String texto = "Pagan: ";
+
+        int usuariosSize = usuariosPagosSeleccionados.size();
+        for(int i = 0; i < usuariosSize ; i++){
+            if(usuariosPagosSeleccionados.get(i).getCantidadAux() != null) {
+                texto += usuariosPagosSeleccionados.get(i).getNombre() + "(" + usuariosPagosSeleccionados.get(i).getCantidadAux() + ")";
+                texto += (i == usuariosSize - 1) ? "" : ", ";
+            }
+        }
+
+        return texto;
+    }
+
+    private String createTextParticipantes(){
+        String texto = "Participan a partes iguales: ";
+
+        int usuariosSize = usuariosParticipaSeleccionados.size();
+        if(usuariosSize == usuariosParaParticipaciones.size()){
+            texto += "Todos";
+        }else {
+            for (int i = 0; i < usuariosSize; i++) {
+                texto += usuariosParticipaSeleccionados.get(i).getNombre();
+                texto += (i == usuariosSize - 1) ? "" : ", ";
+            }
+        }
+
+        return texto;
+    }
+
+    private List<Usuario> getUsuariosConCantidadNoNula(List<Usuario> usuarios){
+        ArrayList<Usuario> us = new ArrayList<Usuario>();
+
+        for(Usuario u: usuarios){
+            if(u.getCantidadAux() != null)
+                us.add(u);
+        }
+
+        return us;
+    }
+
+    private double getTotalCompra(List<Usuario> usuarios){
+        double c = 0.0;
+
+        for(Usuario u: usuarios){
+            c += u.getCantidadAux();
+        }
+
+        return c;
     }
 }
