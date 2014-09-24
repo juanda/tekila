@@ -28,13 +28,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/lblConcepto"
+        android:id="@+id/etxtConcepto"
         android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="@string/label_concepto_ejemplp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_compra_quien_paga"
         android:id="@+id/textView3"
-        android:layout_below="@+id/lblConcepto"
+        android:layout_below="@+id/etxtConcepto"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="10:45:33"
-        android:id="@+id/lbl"
+        android:id="@+id/lblTime"
         android:layout_alignTop="@+id/lblDate"
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.Holo.Light.Spinner" />

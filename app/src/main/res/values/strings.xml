@@ -14,6 +14,9 @@
     <string name="label_compra_cantidad">Total:</string>
     <string name="label_compra_concepto">¿Qué se ha comprado?</string>
     <string name="label_compra_fecha">¿Cuándo?</string>
+    <string name="label_compra_error_concepto_vacio">Debes añadir lo que se ha comprado</string>
+    <string name="label_compra_error_pagadores_vacio">Debes añadir algún pagador</string>
+    <string name="label_compra_error_participantes_vacio">Debes añadir algún participante</string>
     <string name="label_inserta_pagadores">Inserta pagadores</string>
     <string name="label_participantes_todos">Todos</string>
 

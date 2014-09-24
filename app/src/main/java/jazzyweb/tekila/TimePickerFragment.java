@@ -28,6 +28,10 @@ public class TimePickerFragment extends DialogFragment
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // Do something with the time chosen by the user
+        lblTime.setText(String.format("%02d", hourOfDay) + ":" +String.format("%02d", minute));
+    }
+
+    public void setTextView(TextView tv){
+        lblTime = tv;
     }
 }

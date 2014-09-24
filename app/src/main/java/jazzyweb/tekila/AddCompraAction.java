@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,9 +15,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import jazzyweb.tekila.db.DataBaseManager;
@@ -57,6 +62,10 @@ public class AddCompraAction extends Activity {
         final TextView lblTotalCompra = (TextView) findViewById(R.id.lblTotalCompra);
 
         final TextView lblDate = (TextView) findViewById(R.id.lblDate);
+        final TextView lblTime = (TextView) findViewById(R.id.lblTime);
+
+        lblDate.setText(getActualDate());
+        lblTime.setText(getActualTime());
 
         lblDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +75,18 @@ public class AddCompraAction extends Activity {
                 datePickerFragment.setTextView(lblDate);
 
                 datePickerFragment.show(getFragmentManager(), "datePicker");
+            }
+        });
+
+        lblTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerFragment timePickerFragment = new TimePickerFragment();
+
+                timePickerFragment.setTextView(lblTime);
+
+                timePickerFragment.show(getFragmentManager(), "timePicker");
+
             }
         });
 
@@ -81,7 +102,7 @@ public class AddCompraAction extends Activity {
                         usuariosPagosSeleccionados = getUsuariosConCantidadNoNula(result);
                         usuariosPagosSeleccionadosPrev = Usuario.clone(usuariosPagosSeleccionados);
                         lblQuienPaga.setText(createTextPagadores());
-                        lblTotalCompra.setText("Total: " + String.valueOf(getTotalCompra(usuariosPagosSeleccionados)));
+                        lblTotalCompra.setText(String.valueOf(getTotalCompra(usuariosPagosSeleccionados)));
                     }
 
                     public void resetUsuariosSeleccionados(){
@@ -143,7 +164,21 @@ public class AddCompraAction extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_save_compra) {
+            if(isValid()){ // Esta forma de validar no me mola nada, en realidad esta función también crea los avisos de error
+                String concepto = ((EditText) findViewById(R.id.etxtConcepto)).getText().toString();
+                String date = ((TextView) findViewById(R.id.lblDate)).getText().toString();
+                String time = ((TextView) findViewById(R.id.lblTime)).getText().toString();
+                String cantidad = ((TextView) findViewById(R.id.lblTotalCompra)).getText().toString();
 
+                persistData(idGrupo, concepto, cantidad, date, time, usuariosPagosSeleccionados, usuariosParticipaSeleccionados);
+                Intent intent = new Intent(this, MainAction.class);
+                Bundle b = new Bundle();
+                b.putLong("idGrupo", idGrupo );
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+            return true;
+        }else if(id == R.id.action_cancel_add_compra){
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -207,5 +242,66 @@ public class AddCompraAction extends Activity {
         }
 
         return c;
+    }
+
+    private String getActualDate(){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        return strDate;
+    }
+
+    private String getActualTime(){
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        String strDate = dateFormat.format(date);
+        return strDate;
+    }
+
+    private Boolean isValid(){
+        Boolean bConcepto = true;
+        Boolean bPagadores = true;
+        Boolean bParticipantes = true;
+        String errors = "";
+
+        EditText etxtConcepto = (EditText) findViewById(R.id.etxtConcepto);
+        if( etxtConcepto.getText().toString().length() == 0 ){
+            errors += getResources().getString(R.string.label_compra_error_concepto_vacio);
+            bConcepto = false;
+        }
+
+        if( usuariosPagosSeleccionados == null || usuariosPagosSeleccionados.size() == 0 ){
+            errors += "\n" + getResources().getString(R.string.label_compra_error_pagadores_vacio);
+            bPagadores = false;
+        }
+
+        if( usuariosParticipaSeleccionados == null || usuariosParticipaSeleccionados.size() == 0 ){
+            errors += "\n" + getResources().getString(R.string.label_compra_error_participantes_vacio);
+            bParticipantes = false;
+        }
+
+        Boolean result = bConcepto && bPagadores && bParticipantes;
+
+        if(!result){
+            Toast.makeText(this, errors, Toast.LENGTH_LONG).show();
+        }
+
+        return result;
+    }
+
+    protected void persistData(Long idGrupo,
+                               String concepto,
+                               String cantidad,
+                               String date,
+                               String time,
+                               List<Usuario> usuariosPagosSeleccionados,
+                               List<Usuario> usuariosParticipaSeleccionados){
+
+        DataBaseManager dataBaseManager = new DataBaseManager(this);
+        dataBaseManager.open();
+
+//        Long datetime = getDateTime(date, time);
+        Long datetime = Long.valueOf(1);
+        dataBaseManager.createCompra(concepto, Double.valueOf(cantidad), idGrupo, datetime );
     }
 }

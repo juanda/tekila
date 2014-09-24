@@ -28,7 +28,7 @@ public class DatePickerFragment extends DialogFragment
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         if(lblDate != null)
-            lblDate.setText(String.valueOf(year));
+            lblDate.setText(String.format("%02d", day) + "/" + String.format("%02d", month + 1) + "/" + String.format("%02d", year));
     }
 
     public void setTextView(TextView tv){
