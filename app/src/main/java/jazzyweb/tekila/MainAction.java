@@ -33,8 +33,6 @@ public class MainAction extends Activity {
         final ActionBar tabBar = getActionBar();
         tabBar.setNavigationMode(tabBar.NAVIGATION_MODE_TABS);
 
-        loadDatabase();
-
         ComprasFragment comprasFragment = ComprasFragment.newInstance(idGrupo);
         ResumenFragment resumenFragment = ResumenFragment.newInstance(idGrupo);
         DeudasFragment deudasFragment = DeudasFragment.newInstance("kuku", "kaka");
@@ -58,6 +56,12 @@ public class MainAction extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            try {
+                LoadTestData ld = new LoadTestData("datatest.json", this);
+                ld.load();
+            }catch (Exception e){
+                throw new Error("no puedo cargar datos de prueba");
+            }
             return true;
         }else if(id == R.id.action_add_compra){
             Intent intent = new Intent(this, AddCompraAction.class);
@@ -92,31 +96,6 @@ public class MainAction extends Activity {
         public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
             if (null != mFragment)
                 ft.remove(mFragment);
-        }
-    }
-
-    protected void loadDatabase(){
-        Boolean load_data_test = getResources().getBoolean(R.bool.load_data_test);
-        if(load_data_test){
-            loadDataTest();
-        }else{
-            DataBaseManager dbManager = new DataBaseManager(this);
-            dbManager.open();
-        }
-    }
-
-    protected void loadDataTest(){
-        try {
-            this.deleteDatabase(TekilaSqliteHelper.DATABASE_NAME);
-            LoadTestData ltd = new LoadTestData("datatest.json",this);
-
-            ltd.load();
-        }catch (SQLiteException e){
-            Log.w("TEKILA_DB", e.getMessage());
-            Toast.makeText(this, "Error abriendo base de datos", Toast.LENGTH_LONG).show();
-        }catch (IOException e){
-            Log.w("TEKILA_FILE", e.getMessage());
-            Toast.makeText(this, "Error leyendo el archivo de datos de prueba", Toast.LENGTH_LONG).show();
         }
     }
 }

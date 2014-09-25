@@ -71,7 +71,7 @@ public class ModelManager {
         String[] campos = new String[] { "_id", "nombre", "cantidad", "datetime" };
         String[] args = new String[] {String.valueOf(idGrupo)};
 
-        Cursor c = database.query(TekilaSqliteHelper.TABLE_COMPRAS, campos, "id_grupo=?", args, null, null, null);
+        Cursor c = database.query(TekilaSqliteHelper.TABLE_COMPRAS, campos, "id_grupo=?", args, null, null, "datetime desc");
 
         try {
             if (c.moveToFirst()) {

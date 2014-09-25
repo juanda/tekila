@@ -171,19 +171,24 @@ public class AddCompraAction extends Activity {
                 String date = ((TextView) findViewById(R.id.lblDate)).getText().toString();
                 String time = ((TextView) findViewById(R.id.lblTime)).getText().toString();
                 String cantidad = ((TextView) findViewById(R.id.lblTotalCompra)).getText().toString();
-
                 persistData(idGrupo, concepto, cantidad, date, time, usuariosPagosSeleccionados, usuariosParticipaSeleccionados);
-                Intent intent = new Intent(this, MainAction.class);
-                Bundle b = new Bundle();
-                b.putLong("idGrupo", idGrupo );
-                intent.putExtras(b);
-                startActivity(intent);
+                returnToMain();
             }
             return true;
         }else if(id == R.id.action_cancel_add_compra){
+            returnToMain();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void returnToMain(){
+        Intent intent = new Intent(this, MainAction.class);
+        Bundle b = new Bundle();
+        b.putLong("idGrupo", idGrupo );
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     private List<Usuario> getUsuariosFromGrupo(Long idGrupo){
@@ -300,8 +305,33 @@ public class AddCompraAction extends Activity {
 
         ModelManager modelManager = new ModelManager(this);
 
-//        Long datetime = getDateTime(date, time);
-        Long datetime = Long.valueOf(1);
-        modelManager.createCompra(concepto, Double.valueOf(cantidad), idGrupo, datetime );
+
+        Long datetime = getTimeStamp(date, time);
+        Long idCompra = modelManager.createCompra(concepto, Double.valueOf(cantidad), idGrupo, datetime);
+
+        for(Usuario u: usuariosPagosSeleccionados){
+            Long idPago = modelManager.createPago(u.getCantidadAux(), u.getId(), idCompra);
+        }
+
+        int nParticipantes = usuariosParticipaSeleccionados.size();
+        Double porcentaje = Double.valueOf(cantidad) / Double.valueOf(nParticipantes);
+        for(Usuario u: usuariosParticipaSeleccionados){
+            Long idParticipacion = modelManager.createParticipacion(porcentaje, u.getId(), idCompra);
+        }
+
+    }
+
+    protected Long getTimeStamp(String date, String time){
+        String datetime = date + " " + time;
+        Long timestamp = null;
+
+        try {
+            Date fecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(datetime);
+            timestamp = fecha.getTime();
+        }catch (Exception e){
+            throw new Error("No he podido convertir la fecha a timestamp");
+        }
+
+        return timestamp;
     }
 }

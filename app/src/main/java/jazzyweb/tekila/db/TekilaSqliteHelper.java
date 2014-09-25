@@ -64,6 +64,7 @@ public class TekilaSqliteHelper extends SQLiteOpenHelper {
         try {
             readDatabaseScript(db);
             db.setTransactionSuccessful();
+
         } catch (IOException ioe) {
             Log.e(TAG, ioe.getMessage());
         } catch (SQLException sqle) {
@@ -71,6 +72,15 @@ public class TekilaSqliteHelper extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
+
+//        LoadTestData ld = null;
+//        try {
+//            ld = new LoadTestData("datatest.json", TekilaSqliteHelper.context);
+//            ld.load();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
     /**
@@ -133,7 +143,7 @@ public class TekilaSqliteHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Retrieves a thread-safe instance of the singleton object {@link DBMS} and opens the database
+     * Retrieves a thread-safe instance of the singleton object {link DBMS} and opens the database
      * with writing permissions.
      *
      * @param context the context to set.
