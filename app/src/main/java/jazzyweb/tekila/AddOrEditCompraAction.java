@@ -2,6 +2,8 @@ package jazzyweb.tekila;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,7 +28,7 @@ import jazzyweb.tekila.model.Usuario;
 import jazzyweb.tekila.widget.ParticipantesAdapter;
 import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 
-public class AddCompraAction extends Activity {
+public class AddOrEditCompraAction extends Activity {
 
     private List<Usuario> usuariosParaPagos;
     private List<Usuario> usuariosParaParticipaciones;
@@ -114,7 +116,7 @@ public class AddCompraAction extends Activity {
 
                 };
 
-                SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaPagos, usuariosPagosSeleccionados);
+                SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddOrEditCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaPagos, usuariosPagosSeleccionados);
 
                 SelectUsuariosYCantidadDialogFragment dialog =
                         SelectUsuariosYCantidadDialogFragment.newInstance(title, listener, adapter);
@@ -138,7 +140,7 @@ public class AddCompraAction extends Activity {
                                 resetTextViewParticipantes();
                             }
                         };
-                ParticipantesAdapter adapter = new ParticipantesAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaParticipaciones, usuariosParticipaSeleccionados);
+                ParticipantesAdapter adapter = new ParticipantesAdapter(AddOrEditCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaParticipaciones, usuariosParticipaSeleccionados);
 
                 SelectUsuariosYCantidadDialogFragment dialog =
                         SelectUsuariosYCantidadDialogFragment.newInstance(title, listener, adapter);
@@ -177,6 +179,11 @@ public class AddCompraAction extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.add_compra, menu);
+        if(idCompra == 0){
+            MenuItem menuItem = (MenuItem) menu.findItem(R.id.action_delete_compra);
+            menuItem.setVisible(false);
+        }
+
         return true;
     }
 
@@ -199,6 +206,31 @@ public class AddCompraAction extends Activity {
         }else if(id == R.id.action_cancel_add_compra){
             returnToMain();
             return true;
+        }else if(id == R.id.action_delete_compra){
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            ModelManager modelManager = new ModelManager(getBaseContext());
+                            modelManager.deleteCompra(idCompra);
+                            modelManager.deletePagos(idCompra);
+                            modelManager.deleteParticipaciones(idCompra);
+                            returnToMain();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            String mensaje = getResources().getString(R.string.label_estas_seguro);
+            String yes     = getResources().getString(R.string.label_yes);
+            String no      = getResources().getString(R.string.label_no);
+            builder.setMessage(mensaje).setPositiveButton(yes, dialogClickListener)
+                    .setNegativeButton(no, dialogClickListener).show();
         }
 
         return super.onOptionsItemSelected(item);

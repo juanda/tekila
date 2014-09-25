@@ -5,18 +5,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import java.io.IOException;
-
-import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.db.LoadTestData;
-import jazzyweb.tekila.db.TekilaSqliteHelper;
 
 
 public class MainAction extends Activity {
@@ -64,7 +57,7 @@ public class MainAction extends Activity {
             }
             return true;
         }else if(id == R.id.action_add_compra){
-            Intent intent = new Intent(this, AddCompraAction.class);
+            Intent intent = new Intent(this, AddOrEditCompraAction.class);
             Bundle b = new Bundle();
             b.putLong("idGrupo", idGrupo );
             intent.putExtras(b);

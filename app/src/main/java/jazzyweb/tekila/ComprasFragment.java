@@ -9,11 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
-import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.db.ModelManager;
 import jazzyweb.tekila.model.Compra;
 import jazzyweb.tekila.widget.ComprasAdapter;
@@ -87,7 +85,7 @@ public class ComprasFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Compra compra = (Compra) adapterView.getItemAtPosition(i);
-                Intent intent = new Intent(getActivity(), AddCompraAction.class);
+                Intent intent = new Intent(getActivity(), AddOrEditCompraAction.class);
                 Bundle b = new Bundle();
                 b.putLong("idGrupo", idGrupo );
                 b.putLong("idCompra", compra.getId());
