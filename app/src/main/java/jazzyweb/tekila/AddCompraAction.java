@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.AvoidXfermode;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 import jazzyweb.tekila.db.DataBaseManager;
+import jazzyweb.tekila.db.ModelManager;
 import jazzyweb.tekila.model.Usuario;
 import jazzyweb.tekila.widget.ParticipantesAdapter;
 import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
@@ -185,10 +187,9 @@ public class AddCompraAction extends Activity {
     }
 
     private List<Usuario> getUsuariosFromGrupo(Long idGrupo){
-        DataBaseManager dataBaseManager = new DataBaseManager(this);
-        dataBaseManager.open();
+        ModelManager modelManager = new ModelManager(this);
 
-        List<Usuario> usuarios = dataBaseManager.getUsuariosFromGrupo(idGrupo);
+        List<Usuario> usuarios = modelManager.getUsuariosFromGrupo(idGrupo);
 
         return usuarios;
     }
@@ -297,11 +298,10 @@ public class AddCompraAction extends Activity {
                                List<Usuario> usuariosPagosSeleccionados,
                                List<Usuario> usuariosParticipaSeleccionados){
 
-        DataBaseManager dataBaseManager = new DataBaseManager(this);
-        dataBaseManager.open();
+        ModelManager modelManager = new ModelManager(this);
 
 //        Long datetime = getDateTime(date, time);
         Long datetime = Long.valueOf(1);
-        dataBaseManager.createCompra(concepto, Double.valueOf(cantidad), idGrupo, datetime );
+        modelManager.createCompra(concepto, Double.valueOf(cantidad), idGrupo, datetime );
     }
 }

@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import jazzyweb.tekila.db.DataBaseManager;
+import jazzyweb.tekila.db.ModelManager;
 import jazzyweb.tekila.model.Usuario;
 import jazzyweb.tekila.widget.UsuariosResumenAdapter;
 
@@ -31,7 +31,7 @@ public class ResumenFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Long idGrupo;
-    private DataBaseManager dataBaseManager;
+    private ModelManager modelManager;
     private List<Usuario> usuarios;
 
     private OnFragmentInteractionListener mListener;
@@ -60,9 +60,8 @@ public class ResumenFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             idGrupo = getArguments().getLong(ARG_PARAM1);
-            dataBaseManager = new DataBaseManager(getActivity());
-            dataBaseManager.open();
-            usuarios = dataBaseManager.getUsuariosFromGrupo(idGrupo);
+            modelManager = new ModelManager(getActivity());
+            usuarios = modelManager.getUsuariosFromGrupo(idGrupo);
         }
     }
 

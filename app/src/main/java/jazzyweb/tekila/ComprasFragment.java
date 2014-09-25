@@ -11,6 +11,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import jazzyweb.tekila.db.DataBaseManager;
+import jazzyweb.tekila.db.ModelManager;
 import jazzyweb.tekila.model.Compra;
 import jazzyweb.tekila.widget.ComprasAdapter;
 
@@ -28,7 +29,7 @@ public class ComprasFragment extends Fragment {
     private static final String ARG_PARAM1 = "idGrupo";
 
     private Long idGrupo;
-    private DataBaseManager dataBaseManager;
+    private ModelManager modelManager;
     private List<Compra> compras;
     private int numParticipantes;
 
@@ -60,10 +61,10 @@ public class ComprasFragment extends Fragment {
 
         if (getArguments() != null) {
             idGrupo = getArguments().getLong(ARG_PARAM1);
-            dataBaseManager = new DataBaseManager(getActivity());
-            dataBaseManager.open();
-            compras = dataBaseManager.getComprasFromGrupo(idGrupo);
-            numParticipantes = dataBaseManager.getNumParticipantes(idGrupo);
+
+            modelManager = new ModelManager(getActivity());
+            compras = modelManager.getComprasFromGrupo(idGrupo);
+            numParticipantes = modelManager.getNumParticipantes(idGrupo);
         }
     }
 

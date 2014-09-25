@@ -1,9 +1,6 @@
 package jazzyweb.tekila.db;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteException;
-import android.util.ArrayMap;
-import android.util.JsonReader;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -12,22 +9,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.StreamHandler;
 
-import jazzyweb.tekila.db.DataBaseManager;
-import jazzyweb.tekila.model.Compra;
-import jazzyweb.tekila.model.Grupo;
-import jazzyweb.tekila.model.Usuario;
 import jazzyweb.tekila.utils.StreamReader;
 
 public class LoadTestData{
@@ -36,7 +24,7 @@ public class LoadTestData{
     private Map<Long, Long> usuarios;
     private Map<Long, Long> compras;
 
-    private DataBaseManager dbManager;
+    private ModelManager modelManager;
     private String jsonDataTest;
 
     public LoadTestData(String fileTest, Context context) throws IOException{
@@ -46,8 +34,7 @@ public class LoadTestData{
         try {
             jsonDataTest = StreamReader.convertStreamToString(is);
             
-            dbManager = new DataBaseManager(context);
-            dbManager.open();
+            modelManager = new ModelManager(context);
         }catch (IOException e){
             Log.i(this.getClass().getName(), "Error abriendo el fichero " + fileTest);
         }
@@ -80,7 +67,7 @@ public class LoadTestData{
                 Long idInJson = objGrupo.getLong("id");
                 String nombre = objGrupo.getString("nombre");
 
-                Long id = dbManager.createGrupo(nombre);
+                Long id = modelManager.createGrupo(nombre);
                 Log.i(this.getClass().getName(), "creado grupo " + nombre + " con id " + id);
                 _grupos.put(idInJson, id);
                 Log.i(this.getClass().getName(), "añadido al mapa de grupos el par " + idInJson + "," + id);
@@ -104,7 +91,7 @@ public class LoadTestData{
                 String nombre = objUsuario.getString("nombre");
                 JSONArray arrGrupos = objUsuario.getJSONArray("grupos");
 
-                Long id = dbManager.createUsuario(nombre);
+                Long id = modelManager.createUsuario(nombre);
                 Log.i(this.getClass().getName(), "creado usuario " + nombre + " con id " + id);
 
                 _usuarios.put(idInJson, id);
@@ -112,7 +99,7 @@ public class LoadTestData{
 
                 for(int j = 0; j < arrGrupos.length(); j++){
                     Long idGrupo = grupos.get(arrGrupos.getLong(j));
-                    dbManager.asociaUsuarioAGrupo(id, idGrupo);
+                    modelManager.asociaUsuarioAGrupo(id, idGrupo);
                     Log.i(this.getClass().getName(), "asociado el usuario " + nombre + " con id " + id + " al grupo " + idGrupo);
                 }
             }
@@ -141,7 +128,7 @@ public class LoadTestData{
 
                 Date fecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(dateTimeString);
                 Long datetime = fecha.getTime();
-                Long id = dbManager.createCompra(nombre,cantidad, grupos.get(idGrupo), datetime);
+                Long id = modelManager.createCompra(nombre,cantidad, grupos.get(idGrupo), datetime);
                 Log.i(this.getClass().getName(), "creada la compra " + nombre + " con id " + id);
                 _compras.put(idInJson, id);
                 Log.i(this.getClass().getName(), "añadido al mapa de compras el par " + idInJson + "," + id);
@@ -152,7 +139,7 @@ public class LoadTestData{
                     Double porcentaje = (Double) objParticipantes.get(key);
 
                     Long idUsuario = Long.parseLong(key);
-                    Long idPart = dbManager.createParticipacion(porcentaje, idUsuario, id);
+                    Long idPart = modelManager.createParticipacion(porcentaje, idUsuario, id);
                     Log.i(this.getClass().getName(), "creado la participación con id "
                             + idPart + " nombre compra '" + nombre + "' porcentaje "
                             + porcentaje + " usuario " + idUsuario + " compra " + id);
@@ -164,7 +151,7 @@ public class LoadTestData{
                     Double cantidadPago = (Double) objPagos.get(key);
 
                     Long idUsuario = Long.parseLong(key);
-                    Long idPago = dbManager.createPago(cantidadPago, Long.parseLong(key), id);
+                    Long idPago = modelManager.createPago(cantidadPago, Long.parseLong(key), id);
                     Log.i(this.getClass().getName(), "creado el pago con id "
                             + idPago + " nombre compra '" + nombre + "' cantidad "
                             + cantidad + " usuario " + idUsuario + " compra " + id);
