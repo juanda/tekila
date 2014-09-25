@@ -1,12 +1,15 @@
 package jazzyweb.tekila;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -74,11 +77,24 @@ public class ComprasFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_compras, container, false);
 
-        ListView lstCompras = (ListView) rootView.findViewById(R.id.lstCompras);
+        final ListView lstCompras = (ListView) rootView.findViewById(R.id.lstCompras);
 
         ComprasAdapter adapter = new ComprasAdapter(getActivity(), R.layout.item_compra, compras, numParticipantes);
 
         lstCompras.setAdapter(adapter);
+
+        lstCompras.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Compra compra = (Compra) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(getActivity(), AddCompraAction.class);
+                Bundle b = new Bundle();
+                b.putLong("idGrupo", idGrupo );
+                b.putLong("idCompra", compra.getId());
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

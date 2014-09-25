@@ -315,7 +315,7 @@ public class ModelManager {
 
         Compra compra = new Compra();
 
-        String[] campos = new String[] { "nombre", "cantidad", "id_grupo" };
+        String[] campos = new String[] { "nombre", "cantidad", "id_grupo", "datetime" };
         String[] args = new String[] {String.valueOf(id)};
 
         Cursor c = database.query(TekilaSqliteHelper.TABLE_COMPRAS, campos, "_id=?", args, null, null, null);
@@ -325,9 +325,11 @@ public class ModelManager {
                 String nombre = c.getString(0);
                 Double cantidad = c.getDouble(1);
                 Long id_grupo = c.getLong(2);
+                Long datetime = c.getLong(3);
                 setId(compra, id);
                 compra.setNombre(nombre);
                 compra.setCantidad(cantidad);
+                compra.setDatetime(datetime);
 
                 Grupo grupo = getGrupo(id_grupo);
 
@@ -541,8 +543,8 @@ public class ModelManager {
         return deletedRows;
     }
 
-    public  int updateCompra(Long id, String nombre, float cantidad, Long idGrupo, Long datetime){
-        String[] ids = {Long.toString(id)};
+    public  int updateCompra(Long id, String nombre, Double cantidad, Long idGrupo, Long datetime){
+        String[] ids = {String.valueOf(id)};
         ContentValues values = new ContentValues();
         values.put("nombre", nombre);
         values.put("cantidad", cantidad);
@@ -550,7 +552,7 @@ public class ModelManager {
         values.put("datetime", datetime);
 
         int updatedRows = database.update(TekilaSqliteHelper.TABLE_COMPRAS,values,
-                TekilaSqliteHelper.COLUMN_IDCOMPRA + " = ?", ids);
+                TekilaSqliteHelper.COLUMN_ID + "=?", ids);
 
         return updatedRows;
     }
@@ -577,6 +579,13 @@ public class ModelManager {
         return deletedRows;
     }
 
+    public int deletePagos(Long idCompra){
+        String[] ids = {String.valueOf(idCompra)};
+
+        int deleteRows = database.delete(TekilaSqliteHelper.TABLE_PAGOS, TekilaSqliteHelper.COLUMN_IDCOMPRA + "=?", ids);
+
+        return deleteRows;
+    }
 
     public int updatePago(Long id, Double cantidad, Long idUsuario, Long idCompra){
         String[] ids = {Long.toString(id)};
@@ -609,6 +618,14 @@ public class ModelManager {
         int deletedRows = database.delete(TekilaSqliteHelper.TABLE_PARTICIPACIONES, TekilaSqliteHelper.COLUMN_ID + " = ?", ids);
 
         return deletedRows;
+    }
+
+    public int deleteParticipaciones(Long idCompra){
+        String[] ids = {String.valueOf(idCompra)};
+
+        int deleteRows = database.delete(TekilaSqliteHelper.TABLE_PARTICIPACIONES, TekilaSqliteHelper.COLUMN_IDCOMPRA + "=?", ids);
+
+        return deleteRows;
     }
 
 

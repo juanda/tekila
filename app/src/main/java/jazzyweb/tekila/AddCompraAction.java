@@ -2,36 +2,29 @@ package jazzyweb.tekila;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.AvoidXfermode;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-import jazzyweb.tekila.db.DataBaseManager;
 import jazzyweb.tekila.db.ModelManager;
+import jazzyweb.tekila.model.Compra;
+import jazzyweb.tekila.model.Pago;
+import jazzyweb.tekila.model.Participacion;
 import jazzyweb.tekila.model.Usuario;
 import jazzyweb.tekila.widget.ParticipantesAdapter;
 import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
-import jazzyweb.tekila.widget.UsuariosResumenAdapter;
-
 
 public class AddCompraAction extends Activity {
 
@@ -43,6 +36,15 @@ public class AddCompraAction extends Activity {
     private List<Usuario> usuariosParticipaSeleccionadosPrev;
 
     private Long idGrupo;
+    private Long idCompra;
+
+    private EditText etxtConcepto;
+    private TextView lblQuienPaga;
+    private TextView lblQuienParticipa;
+    private TextView lblTotalCompra;
+    private TextView lblDate;
+    private TextView lblTime;
+
 
 
     @Override
@@ -52,6 +54,8 @@ public class AddCompraAction extends Activity {
 
         Bundle b = getIntent().getExtras();
         idGrupo = b.getLong("idGrupo");
+        idCompra = b.getLong("idCompra");
+
         usuariosParaPagos = getUsuariosFromGrupo(idGrupo);
         usuariosParaParticipaciones = Usuario.clone(usuariosParaPagos);
         usuariosParticipaSeleccionados = Usuario.clone(usuariosParaPagos);
@@ -59,15 +63,15 @@ public class AddCompraAction extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        final TextView lblQuienPaga = (TextView) findViewById(R.id.lblQuienPaga);
-        final TextView lblQuienParticipa = (TextView) findViewById(R.id.lblQuienParticipa);
-        final TextView lblTotalCompra = (TextView) findViewById(R.id.lblTotalCompra);
+        etxtConcepto = (EditText) findViewById(R.id.etxtConcepto);
+        lblQuienPaga = (TextView) findViewById(R.id.lblQuienPaga);
+        lblQuienParticipa = (TextView) findViewById(R.id.lblQuienParticipa);
+        lblTotalCompra = (TextView) findViewById(R.id.lblTotalCompra);
 
-        final TextView lblDate = (TextView) findViewById(R.id.lblDate);
-        final TextView lblTime = (TextView) findViewById(R.id.lblTime);
+        lblDate = (TextView) findViewById(R.id.lblDate);
+        lblTime = (TextView) findViewById(R.id.lblTime);
 
-        lblDate.setText(getActualDate());
-        lblTime.setText(getActualTime());
+        initializeDataWidgets();
 
         lblDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,15 +105,11 @@ public class AddCompraAction extends Activity {
                 SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener listener = new SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener() {
                     @Override
                     public void onUsuariosSelectedChange(List<Usuario> result) {
-                        usuariosPagosSeleccionados = getUsuariosConCantidadNoNula(result);
-                        usuariosPagosSeleccionadosPrev = Usuario.clone(usuariosPagosSeleccionados);
-                        lblQuienPaga.setText(createTextPagadores());
-                        lblTotalCompra.setText(String.valueOf(getTotalCompra(usuariosPagosSeleccionados)));
+                        setTextViewPagadores(result);
                     }
 
                     public void resetUsuariosSeleccionados(){
-                        usuariosPagosSeleccionados = Usuario.clone(usuariosPagosSeleccionadosPrev);
-                        lblQuienPaga.setText(createTextPagadores());
+                        resetTextViewPagadores();
                     }
 
                 };
@@ -131,14 +131,11 @@ public class AddCompraAction extends Activity {
                         new SelectUsuariosYCantidadDialogFragment.OnUsuariosSelectedChangeListener() {
                             @Override
                             public void onUsuariosSelectedChange(List<Usuario> result) {
-                                usuariosParticipaSeleccionados = result;
-                                usuariosParticipaSeleccionadosPrev = Usuario.clone(usuariosParticipaSeleccionados);
-                                lblQuienParticipa.setText(createTextParticipantes());
+                                setTextViewParticipantes(result);
                             }
 
                             public void resetUsuariosSeleccionados(){
-                                usuariosParticipaSeleccionados = Usuario.clone(usuariosParticipaSeleccionadosPrev);
-                                lblQuienParticipa.setText(createTextParticipantes());
+                                resetTextViewParticipantes();
                             }
                         };
                 ParticipantesAdapter adapter = new ParticipantesAdapter(AddCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaParticipaciones, usuariosParticipaSeleccionados);
@@ -150,6 +147,30 @@ public class AddCompraAction extends Activity {
             }
         });
     }
+
+    protected void setTextViewPagadores(List<Usuario> usuarios){
+        usuariosPagosSeleccionados = getUsuariosConCantidadNoNula(usuarios);
+        usuariosPagosSeleccionadosPrev = Usuario.clone(usuariosPagosSeleccionados);
+        lblQuienPaga.setText(createTextPagadores());
+        lblTotalCompra.setText(String.valueOf(getTotalCompra(usuariosPagosSeleccionados)));
+    }
+
+    protected void resetTextViewPagadores(){
+        usuariosPagosSeleccionados = Usuario.clone(usuariosPagosSeleccionadosPrev);
+        lblQuienPaga.setText(createTextPagadores());
+    }
+
+    protected void setTextViewParticipantes(List<Usuario> usuarios){
+        usuariosParticipaSeleccionados = usuarios;
+        usuariosParticipaSeleccionadosPrev = Usuario.clone(usuariosParticipaSeleccionados);
+        lblQuienParticipa.setText(createTextParticipantes());
+    }
+
+    protected void resetTextViewParticipantes(){
+        usuariosParticipaSeleccionados = Usuario.clone(usuariosParticipaSeleccionadosPrev);
+        lblQuienParticipa.setText(createTextParticipantes());
+    }
+
 
 
     @Override
@@ -167,11 +188,11 @@ public class AddCompraAction extends Activity {
         int id = item.getItemId();
         if (id == R.id.action_save_compra) {
             if(isValid()){ // Esta forma de validar no me mola nada, en realidad esta función también crea los avisos de error
-                String concepto = ((EditText) findViewById(R.id.etxtConcepto)).getText().toString();
-                String date = ((TextView) findViewById(R.id.lblDate)).getText().toString();
-                String time = ((TextView) findViewById(R.id.lblTime)).getText().toString();
-                String cantidad = ((TextView) findViewById(R.id.lblTotalCompra)).getText().toString();
-                persistData(idGrupo, concepto, cantidad, date, time, usuariosPagosSeleccionados, usuariosParticipaSeleccionados);
+                String concepto = etxtConcepto.getText().toString();
+                String date = lblDate.getText().toString();
+                String time = lblTime.getText().toString();
+                String cantidad = lblTotalCompra.getText().toString();
+                persistData(idGrupo, idCompra, concepto, cantidad, date, time, usuariosPagosSeleccionados, usuariosParticipaSeleccionados);
                 returnToMain();
             }
             return true;
@@ -296,6 +317,7 @@ public class AddCompraAction extends Activity {
     }
 
     protected void persistData(Long idGrupo,
+                               Long idCompra,
                                String concepto,
                                String cantidad,
                                String date,
@@ -307,7 +329,14 @@ public class AddCompraAction extends Activity {
 
 
         Long datetime = getTimeStamp(date, time);
-        Long idCompra = modelManager.createCompra(concepto, Double.valueOf(cantidad), idGrupo, datetime);
+        if(idCompra == 0){
+            idCompra = modelManager.createCompra(concepto, Double.valueOf(cantidad), idGrupo, datetime);
+        }else{
+            modelManager.updateCompra(idCompra, concepto, Double.valueOf(cantidad), idGrupo, datetime);
+            modelManager.deleteParticipaciones(idCompra);
+            modelManager.deletePagos(idCompra);
+        }
+
 
         for(Usuario u: usuariosPagosSeleccionados){
             Long idPago = modelManager.createPago(u.getCantidadAux(), u.getId(), idCompra);
@@ -333,5 +362,49 @@ public class AddCompraAction extends Activity {
         }
 
         return timestamp;
+    }
+
+    protected void initializeDataWidgets(){
+        if(idCompra == 0){
+            lblDate.setText(getActualDate());
+            lblTime.setText(getActualTime());
+        }else{
+            ModelManager modelManager = new ModelManager(this);
+            Compra compra = modelManager.getCompra(idCompra);
+
+            List<Participacion> participaciones = modelManager.getParticipacionesFromCompra(idCompra);
+            List<Pago> pagos = modelManager.getPagosFromCompra(idCompra);
+
+            List<Usuario> _usuariosPagosSeleccionados = new ArrayList<Usuario>();
+            for(Pago p: pagos){
+                Usuario u = new Usuario();
+                u.setId(p.getUsuario().getId());
+                u.setNombre(p.getUsuario().getNombre());
+                u.setCantidadAux(p.getCantidad());
+                _usuariosPagosSeleccionados.add(u);
+            }
+
+            List<Usuario> _usuariosParticipaSeleccionados = new ArrayList<Usuario>();
+            for(Participacion pa: participaciones){
+                Usuario u = new Usuario();
+                u.setId(pa.getUsuario().getId());
+                u.setNombre(pa.getUsuario().getNombre());
+                u.setCantidadAux(pa.getPorcentaje());
+                _usuariosParticipaSeleccionados.add(u);
+            }
+
+            Long timestamp = compra.getDatetime();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+            String date =  dateFormat.format(new Date(timestamp));
+            String time =  timeFormat.format(new Date(timestamp));
+
+            setTextViewPagadores(_usuariosPagosSeleccionados);
+            setTextViewParticipantes(_usuariosParticipaSeleccionados);
+
+            etxtConcepto.setText(compra.getNombre());
+            lblDate.setText(date);
+            lblTime.setText(time);
+        }
     }
 }
