@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="jazzyweb.tekila.grupos.GruposActivity" >
+
+    <item android:id="@+id/action_cancel_grupos"
+        android:title="@string/action_cancelar"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_cancel"
+        android:showAsAction="always" />
+
+    <item android:id="@+id/action_add_grupo"
+        android:title="@string/action_add"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="always" />
+</menu>

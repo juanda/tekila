@@ -1,38 +1,39 @@
-package jazzyweb.tekila;
+package jazzyweb.tekila.main;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
 
+import jazzyweb.tekila.R;
 import jazzyweb.tekila.db.ModelManager;
-import jazzyweb.tekila.model.Compra;
-import jazzyweb.tekila.widget.ComprasAdapter;
+import jazzyweb.tekila.model.Usuario;
+import jazzyweb.tekila.widget.UsuariosResumenAdapter;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ComprasFragment.OnFragmentInteractionListener} interface
+ * {@link ResumenFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ComprasFragment#newInstance} factory method to
+ * Use the {@link ResumenFragment#newInstance} factory method to
  * create an instance of this fragment.
  *
  */
-public class ComprasFragment extends Fragment {
+public class ResumenFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "idGrupo";
 
+    // TODO: Rename and change types of parameters
     private Long idGrupo;
     private ModelManager modelManager;
-    private List<Compra> compras;
-    private int numParticipantes;
+    private List<Usuario> usuarios;
 
     private OnFragmentInteractionListener mListener;
 
@@ -41,31 +42,27 @@ public class ComprasFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param idGrupo Parameter 1.
-     * @return A new instance of fragment ComprasFragment.
+     * @return A new instance of fragment ResumenFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ComprasFragment newInstance(Long idGrupo) {
-        ComprasFragment fragment = new ComprasFragment();
+    public static ResumenFragment newInstance(Long idGrupo) {
+        ResumenFragment fragment = new ResumenFragment();
         Bundle args = new Bundle();
         args.putLong(ARG_PARAM1, idGrupo);
         fragment.setArguments(args);
         return fragment;
     }
-
-    public ComprasFragment() {
+    public ResumenFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             idGrupo = getArguments().getLong(ARG_PARAM1);
-
             modelManager = new ModelManager(getActivity());
-            compras = modelManager.getComprasFromGrupo(idGrupo);
-            numParticipantes = modelManager.getNumParticipantes(idGrupo);
+            usuarios = modelManager.getUsuariosFromGrupo(idGrupo);
         }
     }
 
@@ -73,28 +70,16 @@ public class ComprasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_compras, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_resumen, container, false);
 
-        final ListView lstCompras = (ListView) rootView.findViewById(R.id.lstCompras);
+        ListView lstCompras = (ListView) rootView.findViewById(R.id.lstUsuariosResumen);
 
-        ComprasAdapter adapter = new ComprasAdapter(getActivity(), R.layout.item_compra, compras, numParticipantes);
+        UsuariosResumenAdapter adapter = new UsuariosResumenAdapter(getActivity(), R.layout.item_compra, usuarios, idGrupo);
 
         lstCompras.setAdapter(adapter);
 
-        lstCompras.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Compra compra = (Compra) adapterView.getItemAtPosition(i);
-                Intent intent = new Intent(getActivity(), AddOrEditCompraAction.class);
-                Bundle b = new Bundle();
-                b.putLong("idGrupo", idGrupo );
-                b.putLong("idCompra", compra.getId());
-                intent.putExtras(b);
-                startActivity(intent);
-            }
-        });
-
         return rootView;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -1,4 +1,4 @@
-package jazzyweb.tekila;
+package jazzyweb.tekila.main;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -6,33 +6,28 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import java.util.List;
-
-import jazzyweb.tekila.db.ModelManager;
-import jazzyweb.tekila.model.Usuario;
-import jazzyweb.tekila.widget.UsuariosResumenAdapter;
+import jazzyweb.tekila.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ResumenFragment.OnFragmentInteractionListener} interface
+ * {@link DeudasFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ResumenFragment#newInstance} factory method to
+ * Use the {@link DeudasFragment#newInstance} factory method to
  * create an instance of this fragment.
  *
  */
-public class ResumenFragment extends Fragment {
+public class DeudasFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "idGrupo";
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private Long idGrupo;
-    private ModelManager modelManager;
-    private List<Usuario> usuarios;
+    private String mParam1;
+    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,18 +35,20 @@ public class ResumenFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param idGrupo Parameter 1.
-     * @return A new instance of fragment ResumenFragment.
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment DeudasFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ResumenFragment newInstance(Long idGrupo) {
-        ResumenFragment fragment = new ResumenFragment();
+    public static DeudasFragment newInstance(String param1, String param2) {
+        DeudasFragment fragment = new DeudasFragment();
         Bundle args = new Bundle();
-        args.putLong(ARG_PARAM1, idGrupo);
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
-    public ResumenFragment() {
+    public DeudasFragment() {
         // Required empty public constructor
     }
 
@@ -59,9 +56,8 @@ public class ResumenFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            idGrupo = getArguments().getLong(ARG_PARAM1);
-            modelManager = new ModelManager(getActivity());
-            usuarios = modelManager.getUsuariosFromGrupo(idGrupo);
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -69,16 +65,7 @@ public class ResumenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_resumen, container, false);
-
-        ListView lstCompras = (ListView) rootView.findViewById(R.id.lstUsuariosResumen);
-
-        UsuariosResumenAdapter adapter = new UsuariosResumenAdapter(getActivity(), R.layout.item_compra, usuarios, idGrupo);
-
-        lstCompras.setAdapter(adapter);
-
-        return rootView;
-
+        return inflater.inflate(R.layout.fragment_deudas, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

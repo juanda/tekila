@@ -2,15 +2,17 @@
 <resources>
 
     <string name="app_name">Tekila</string>
-
+    <string name="action_add">Añadir</string>
+    <string name="action_cancelar">Cancelar</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_delete">Borrar</string>
+    <string name="action_OK">OK</string>
     <string name="action_settings">Settings</string>
     <string name="action_add_compra">Añadir Compra</string>
-    <string name="action_cancelar">Cancelar</string>
     <string name="action_save_compra">Guardar Compra</string>
     <string name="action_delete_compra">Borrar Compra</string>
-    <string name="action_OK">OK</string>
     <string name="action_grupos">Grupos</string>
-
+    <string name="action_usuarios">Usuarios</string>
     <string name="label_compra_quien_paga">¿Quién paga?</string>
     <string name="label_compra_quien_participa">¿Quién participa?</string>
     <string name="label_compra_cantidad">Total:</string>
@@ -24,12 +26,14 @@
     <string name="label_estas_seguro">¿Estás seguro?</string>
     <string name="label_yes">Si</string>
     <string name="label_no">No</string>
-
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_compra">Añadir Compra</string>
     <string name="label_concepto_ejemplp">Por ejemplo, tabaco y tekila</string>
     <string name="label_total_compra">Total:</string>
-
+    <string name="title_activity_usuarios">Usuarios</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_grupos">Grupos</string>
+    <string name="title_activity_add_or_edit_grupo">AddOrEditGrupoActivity</string>
+    <string name="label_nombre">nombre</string>
 
 </resources>

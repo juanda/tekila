@@ -1,4 +1,4 @@
-package jazzyweb.tekila;
+package jazzyweb.tekila.main;
 
 import android.app.Dialog;
 import android.app.DialogFragment;

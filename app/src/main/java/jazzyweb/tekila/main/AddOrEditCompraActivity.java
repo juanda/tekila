@@ -1,4 +1,4 @@
-package jazzyweb.tekila;
+package jazzyweb.tekila.main;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import jazzyweb.tekila.R;
 import jazzyweb.tekila.db.ModelManager;
 import jazzyweb.tekila.model.Compra;
 import jazzyweb.tekila.model.Pago;
@@ -28,7 +29,7 @@ import jazzyweb.tekila.model.Usuario;
 import jazzyweb.tekila.widget.ParticipantesAdapter;
 import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 
-public class AddOrEditCompraAction extends Activity {
+public class AddOrEditCompraActivity extends Activity {
 
     private List<Usuario> usuariosParaPagos;
     private List<Usuario> usuariosParaParticipaciones;
@@ -116,7 +117,7 @@ public class AddOrEditCompraAction extends Activity {
 
                 };
 
-                SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddOrEditCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaPagos, usuariosPagosSeleccionados);
+                SelectUsuariosYCantidadAdapter adapter = new  SelectUsuariosYCantidadAdapter(AddOrEditCompraActivity.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaPagos, usuariosPagosSeleccionados);
 
                 SelectUsuariosYCantidadDialogFragment dialog =
                         SelectUsuariosYCantidadDialogFragment.newInstance(title, listener, adapter);
@@ -140,7 +141,7 @@ public class AddOrEditCompraAction extends Activity {
                                 resetTextViewParticipantes();
                             }
                         };
-                ParticipantesAdapter adapter = new ParticipantesAdapter(AddOrEditCompraAction.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaParticipaciones, usuariosParticipaSeleccionados);
+                ParticipantesAdapter adapter = new ParticipantesAdapter(AddOrEditCompraActivity.this, R.layout.dialog_usuarios_y_cantidad, usuariosParaParticipaciones, usuariosParticipaSeleccionados);
 
                 SelectUsuariosYCantidadDialogFragment dialog =
                         SelectUsuariosYCantidadDialogFragment.newInstance(title, listener, adapter);
@@ -237,7 +238,7 @@ public class AddOrEditCompraAction extends Activity {
     }
 
     private void returnToMain(){
-        Intent intent = new Intent(this, MainAction.class);
+        Intent intent = new Intent(this, MainActivity.class);
         Bundle b = new Bundle();
         b.putLong("idGrupo", idGrupo );
         intent.putExtras(b);

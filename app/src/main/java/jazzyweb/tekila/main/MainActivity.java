@@ -1,4 +1,4 @@
-package jazzyweb.tekila;
+package jazzyweb.tekila.main;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -9,10 +9,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import jazzyweb.tekila.R;
 import jazzyweb.tekila.db.LoadTestData;
+import jazzyweb.tekila.grupos.GruposActivity;
+import jazzyweb.tekila.usuarios.UsuariosActivity;
 
 
-public class MainAction extends Activity {
+public class MainActivity extends Activity {
 
     private Long idGrupo;
     @Override
@@ -48,24 +51,46 @@ public class MainAction extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            try {
-                LoadTestData ld = new LoadTestData("datatest.json", this);
-                ld.load();
-            }catch (Exception e){
-                throw new Error("no puedo cargar datos de prueba");
-            }
-            return true;
-        }else if(id == R.id.action_add_compra){
-            Intent intent = new Intent(this, AddOrEditCompraAction.class);
-            Bundle b = new Bundle();
-            b.putLong("idGrupo", idGrupo );
-            intent.putExtras(b);
-            startActivity(intent);
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
+        switch (id){
+            case R.id.action_settings:
+                try {
+                    LoadTestData ld = new LoadTestData("datatest.json", this);
+                    ld.load();
+                }catch (Exception e){
+                    throw new Error("no puedo cargar datos de prueba");
+                }
+                return true;
+            case R.id.action_add_compra:
+                startAddOrEditCompraActivity(idGrupo);
+                return true;
+            case R.id.action_grupos:
+                startGruposActivity();
+                return true;
+            case R.id.action_usuarios:
+                startUsuariosActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void startAddOrEditCompraActivity(Long idGrupo){
+        Intent intent = new Intent(this, AddOrEditCompraActivity.class);
+        Bundle b = new Bundle();
+        b.putLong("idGrupo", idGrupo);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
+    private void startUsuariosActivity(){
+        Intent intent = new Intent(this, UsuariosActivity.class);
+        startActivity(intent);
+    }
+
+    private void startGruposActivity(){
+        Intent intent = new Intent(this, GruposActivity.class);
+        startActivity(intent);
     }
 
     public static class TabListener implements ActionBar.TabListener {

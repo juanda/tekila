@@ -1,4 +1,4 @@
-package jazzyweb.tekila;
+package jazzyweb.tekila.main;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

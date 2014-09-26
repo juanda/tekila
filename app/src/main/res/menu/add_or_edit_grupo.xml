@@ -1,21 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="jazzyweb.tekila.main.AddOrEditCompraActivity" >
-
-    <item android:id="@+id/action_cancel_add_compra"
+    tools:context="jazzyweb.tekila.grupos.AddOrEditGrupoActivity" >
+    <item android:id="@+id/action_addoreditgrupo_cancel"
         android:title="@string/action_cancelar"
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_cancel"
         android:showAsAction="always" />
 
-    <item android:id="@+id/action_delete_compra"
-        android:title="@string/action_delete_compra"
+    <item android:id="@+id/action_addoreditgrupo_delete"
+        android:title="@string/action_delete"
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="always" />
 
-    <item android:id="@+id/action_save_compra"
-        android:title="@string/action_save_compra"
+    <item android:id="@+id/action_addoreditgrupo_save"
+        android:title="@string/action_save"
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_accept"
         android:showAsAction="always" />

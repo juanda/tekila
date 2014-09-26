@@ -311,6 +311,36 @@ public class ModelManager {
         return usuario;
     }
 
+    public List<Usuario> getUsuarios(){
+        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+
+        String[] campos = new String[] {"_id", "nombre"};
+
+        Cursor c = database.query(TekilaSqliteHelper.TABLE_USUARIOS, campos, null, null, null, null, null);
+
+        try{
+            if(c.moveToFirst()){
+                do {
+                    Long id = c.getLong(0);
+                    String nombre = c.getString(1);
+
+                    Usuario usuario = new Usuario();
+                    setId(usuario, id);
+                    usuario.setNombre(nombre);
+
+                    usuarios.add(usuario);
+
+                } while (c.moveToNext());
+            }
+        }catch (Exception e){
+            Log.i(this.getClass().getName(), e.getMessage());
+        } finally {
+            c.close();
+        }
+
+        return usuarios;
+    }
+
     public Compra getCompra(Long id){
 
         Compra compra = new Compra();
@@ -368,6 +398,37 @@ public class ModelManager {
 
         return grupo;
     }
+
+    public List<Grupo> getGrupos(){
+        ArrayList<Grupo> grupos = new ArrayList<Grupo>();
+
+        String[] campos = new String[] {"_id", "nombre"};
+
+        Cursor c = database.query(TekilaSqliteHelper.TABLE_GRUPOS, campos, null, null, null, null, null);
+
+        try{
+            if(c.moveToFirst()){
+                do {
+                    Long id = c.getLong(0);
+                    String nombre = c.getString(1);
+
+                    Grupo grupo = new Grupo();
+                    setId(grupo, id);
+                    grupo.setNombre(nombre);
+
+                    grupos.add(grupo);
+
+                } while (c.moveToNext());
+            }
+        }catch (Exception e){
+            Log.i(this.getClass().getName(), e.getMessage());
+        } finally {
+            c.close();
+        }
+
+        return grupos;
+    }
+
 
 //    public Compra getCompra(Long id){
 //        Compra compra = new Compra();

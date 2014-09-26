@@ -1,4 +1,4 @@
-package jazzyweb.tekila;
+package jazzyweb.tekila.main;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,14 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
-import jazzyweb.tekila.db.DataBaseManager;
+import jazzyweb.tekila.R;
 import jazzyweb.tekila.model.Usuario;
 import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 
@@ -24,9 +21,9 @@ import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 /**
  * A simple {@link android.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link jazzyweb.tekila.SelectUsuariosYCantidadDialogFragment.OnFragmentInteractionListener} interface
+ * {@link SelectUsuariosYCantidadDialogFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link jazzyweb.tekila.SelectUsuariosYCantidadDialogFragment#newInstance} factory method to
+ * Use the {@link SelectUsuariosYCantidadDialogFragment#newInstance} factory method to
  * create an instance of this fragment.
  *
  */

@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainAction"
+            android:name=".main.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,14 +17,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddOrEditCompraAction"
+            android:name=".main.AddOrEditCompraActivity"
             android:label="@string/title_activity_add_compra"
-            android:parentActivityName=".MainAction"
-            >
+            android:parentActivityName=".main.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Main" />
-
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".usuarios.UsuariosActivity"
+            android:label="@string/title_activity_usuarios"
+            android:parentActivityName=".main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="jazzyweb.tekila.MainActivity" />
+        </activity>
+        <activity
+            android:name=".grupos.GruposActivity"
+            android:label="@string/title_activity_grupos"
+            android:parentActivityName=".main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="jazzyweb.tekila.MainActivity" />
+        </activity>
+        <activity
+            android:name=".grupos.AddOrEditGrupoActivity"
+            android:label="@string/title_activity_add_or_edit_grupo"
+            android:parentActivityName=".grupos.GruposActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="jazzyweb.tekila.GruposActivity" />
         </activity>
     </application>
 

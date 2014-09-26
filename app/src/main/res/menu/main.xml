@@ -7,10 +7,15 @@
         android:icon="@drawable/ic_action_new"
         android:showAsAction="always" />
 
+    <item android:id="@+id/action_usuarios"
+        android:title="@string/action_usuarios"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+
     <item android:id="@+id/action_grupos"
         android:title="@string/action_grupos"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="always" />
 
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
