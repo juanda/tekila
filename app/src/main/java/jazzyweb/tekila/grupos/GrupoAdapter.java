@@ -1,4 +1,4 @@
-package jazzyweb.tekila.widget;
+package jazzyweb.tekila.grupos;
 
 
 import android.content.Context;
@@ -11,30 +11,30 @@ import android.widget.TextView;
 import java.util.List;
 
 import jazzyweb.tekila.R;
+import jazzyweb.tekila.model.Grupo;
 import jazzyweb.tekila.model.Usuario;
 
-public class UsuariosAdapter extends ArrayAdapter<Usuario>{
+public class GrupoAdapter extends ArrayAdapter<Grupo>{
 
 
-    public UsuariosAdapter(Context context, int resource, List<Usuario> usuarios) {
-        super(context, resource, usuarios);
+    public GrupoAdapter(Context context, int resource, List<Grupo> grupos) {
+        super(context, resource, grupos);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        Usuario usuario = getItem(position);
+        Grupo grupo = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_usuarios, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_grupos, parent, false);
         }
         // Lookup view for data population
-        TextView lblUsuarioNombre       = (TextView) convertView.findViewById(R.id.lblUsuarioItemNombre);
+        TextView lblGrupoNombre       = (TextView) convertView.findViewById(R.id.lblGrupoItemNombre);
 
         // Populate the data into the template view using the data object
 
-        lblUsuarioNombre.setText(usuario.getNombre());
-
+        lblGrupoNombre.setText(grupo.getNombre());
 
         // Return the completed view to render on screen
         return convertView;

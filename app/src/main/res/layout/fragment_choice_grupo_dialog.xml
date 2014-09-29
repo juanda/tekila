@@ -2,14 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jazzyweb.tekila.compras.ComprasFragment"
-    android:focusable="false">
+    tools:context="jazzyweb.tekila.main.ChoiceGrupoDialogFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/lstCompras"
+        android:id="@+id/lstChoiceGrupoGrupos"
         android:layout_gravity="center_vertical|left|top" />
+
 </FrameLayout>

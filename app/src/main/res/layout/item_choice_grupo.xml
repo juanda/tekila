@@ -9,8 +9,5 @@
         android:layout_height="fill_parent"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Pepito"
-        android:id="@+id/lblGrupoItemNombre"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/lblGrupoItemNombre"         />
 </RelativeLayout>

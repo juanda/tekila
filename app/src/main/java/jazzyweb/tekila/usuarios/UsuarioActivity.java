@@ -1,4 +1,4 @@
-package jazzyweb.tekila.grupos;
+package jazzyweb.tekila.usuarios;
 
 import android.app.ActionBar;
 import android.app.ListActivity;
@@ -11,14 +11,14 @@ import android.widget.AdapterView;
 
 import java.util.List;
 
-import jazzyweb.tekila.main.MainActivity;
 import jazzyweb.tekila.R;
 import jazzyweb.tekila.db.ModelManager;
+import jazzyweb.tekila.main.MainActivity;
 import jazzyweb.tekila.model.Grupo;
-import jazzyweb.tekila.widget.GruposAdapter;
+import jazzyweb.tekila.model.Usuario;
 
 
-public class GruposActivity extends ListActivity {
+public class UsuarioActivity extends ListActivity {
 
     private Long idGrupo = null;
     @Override
@@ -34,20 +34,20 @@ public class GruposActivity extends ListActivity {
 
         ModelManager modelManager = new ModelManager(this);
 
-        List<Grupo> grupos = modelManager.getGrupos();
+        List<Usuario> usuarios = modelManager.getUsuarios();
 
-        GruposAdapter adapter = new GruposAdapter(this, R.layout.item_grupos, grupos);
+        UsuarioAdapter adapter = new UsuarioAdapter(this, R.layout.item_usuarios, usuarios);
 
         setListAdapter(adapter);
 
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Grupo grupo = (Grupo) adapterView.getItemAtPosition(i);
-                Intent intent = new Intent(GruposActivity.this, AddOrEditGrupoActivity.class);
+                Usuario usuario = (Usuario) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(UsuarioActivity.this, AddOrEditUsuarioActivity.class);
                 Bundle b = new Bundle();
                 b.putLong("idGrupo", idGrupo);
-                b.putLong("idGrupoToEdit", grupo.getId());
+                b.putLong("idUsuarioToEdit", usuario.getId());
                 intent.putExtras(b);
                 startActivity(intent);
             }
@@ -58,7 +58,7 @@ public class GruposActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.grupos, menu);
+        getMenuInflater().inflate(R.menu.usuarios, menu);
         return true;
     }
 
@@ -70,10 +70,10 @@ public class GruposActivity extends ListActivity {
         int id = item.getItemId();
 
         switch (id){
-            case R.id.action_add_grupo:
-                showAddOrEditGrupoActivity(Long.valueOf(0));
+            case R.id.action_add_usuario:
+                showAddOrEditUsuarioActivity(Long.valueOf(0));
                 return true;
-            case R.id.action_cancel_grupos:
+            case R.id.action_cancel_usuarios:
                 returnToMain();
                 return true;
             default:
@@ -81,18 +81,18 @@ public class GruposActivity extends ListActivity {
         }
     }
 
-    private void showAddOrEditGrupoActivity(Long idGrupoToEdit){
-        Intent intent = new Intent(this, AddOrEditGrupoActivity.class);
+    private void showAddOrEditUsuarioActivity(Long idUsuarioToEdit){
+        Intent intent = new Intent(this, AddOrEditUsuarioActivity.class);
         Bundle b = new Bundle();
         b.putLong("idGrupo", idGrupo);
-        b.putLong("idGrupoToEdit", idGrupoToEdit);
+        b.putLong("idUsuarioToEdit", idUsuarioToEdit);
         intent.putExtras(b);
         startActivity(intent);
     }
     private void returnToMain(){
         Intent intent = new Intent(this, MainActivity.class);
         Bundle b = new Bundle();
-        b.putLong("idGrupo", idGrupo );
+        b.putLong("idGrupo", idGrupo);
         intent.putExtras(b);
         startActivity(intent);
     }

@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.AddOrEditCompraActivity"
+            android:name=".compras.AddOrEditCompraActivity"
             android:label="@string/title_activity_add_compra"
             android:parentActivityName=".main.MainActivity" >
             <meta-data
@@ -25,15 +25,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".usuarios.UsuariosActivity"
-            android:label="@string/title_activity_usuarios"
-            android:parentActivityName=".main.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="jazzyweb.tekila.MainActivity" />
-        </activity>
-        <activity
-            android:name=".grupos.GruposActivity"
+            android:name=".grupos.GrupoActivity"
             android:label="@string/title_activity_grupos"
             android:parentActivityName=".main.MainActivity" >
             <meta-data
@@ -43,7 +35,23 @@
         <activity
             android:name=".grupos.AddOrEditGrupoActivity"
             android:label="@string/title_activity_add_or_edit_grupo"
-            android:parentActivityName=".grupos.GruposActivity" >
+            android:parentActivityName=".grupos.GrupoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="jazzyweb.tekila.GruposActivity" />
+        </activity>
+        <activity
+            android:name=".usuarios.UsuarioActivity"
+            android:label="@string/title_activity_usuarios"
+            android:parentActivityName=".main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="jazzyweb.tekila.MainActivity" />
+        </activity>
+        <activity
+            android:name=".usuarios.AddOrEditUsuarioActivity"
+            android:label="@string/title_activity_add_or_edit_usuario"
+            android:parentActivityName=".usuarios.UsuarioActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="jazzyweb.tekila.GruposActivity" />

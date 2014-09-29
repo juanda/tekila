@@ -1,4 +1,4 @@
-package jazzyweb.tekila.main;
+package jazzyweb.tekila.compras;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,7 +15,6 @@ import java.util.List;
 import jazzyweb.tekila.R;
 import jazzyweb.tekila.db.ModelManager;
 import jazzyweb.tekila.model.Compra;
-import jazzyweb.tekila.widget.ComprasAdapter;
 
 
 /**

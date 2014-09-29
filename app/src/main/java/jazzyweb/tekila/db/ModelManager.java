@@ -582,6 +582,15 @@ public class ModelManager {
         return deletedRows;
     }
 
+    public int desasociaUsuariosDeGrupo(Long idCompra){
+        String[] ids = {String.valueOf(idCompra)};
+
+        int deletedRows = database.delete(TekilaSqliteHelper.TABLE_USUARIO_GRUPO,
+                TekilaSqliteHelper.COLUMN_IDGRUPO + " = ?", ids );
+
+        return deletedRows;
+    }
+
     // COMPRAS
 
     public Long createCompra(String nombre, Double cantidad, Long idGrupo, Long datetime){

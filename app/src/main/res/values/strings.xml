@@ -13,6 +13,7 @@
     <string name="action_delete_compra">Borrar Compra</string>
     <string name="action_grupos">Grupos</string>
     <string name="action_usuarios">Usuarios</string>
+    <string name="action_cambiar_grupo">Cambiar de grupo</string>
     <string name="label_compra_quien_paga">¿Quién paga?</string>
     <string name="label_compra_quien_participa">¿Quién participa?</string>
     <string name="label_compra_cantidad">Total:</string>
@@ -33,7 +34,14 @@
     <string name="title_activity_usuarios">Usuarios</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_grupos">Grupos</string>
-    <string name="title_activity_add_or_edit_grupo">AddOrEditGrupoActivity</string>
+    <string name="title_activity_add_or_edit_grupo">Añadir Grupo</string>
+    <string name="title_activity_add_or_edit_usuario">Añadir Usuario</string>
     <string name="label_nombre">nombre</string>
+    <string name="label_usuario_con_datos_asociados">El usuario tiene datos asociado. No se puede eliminar</string>
+    <string name="label_no_implementado">Funcionalidad por implementar</string>
+    <string name="label_usuarios_asociados">Usuarios asociados</string>
+    <string name="label_hay_que_crear_un_grupo">Antes de nada debes crear un grupo</string>
+    <string name="label_selecciona_grupo">Selecciona un grupo</string>
+
 
 </resources>

@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_compra_quien_paga"
-        android:id="@+id/textView3"
+        android:id="@+id/lblUsuariosAsociados"
         android:layout_below="@+id/etxtConcepto"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/lblQuienPaga"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/lblUsuariosAsociados"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="@string/label_inserta_pagadores"

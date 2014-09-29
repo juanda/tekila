@@ -35,4 +35,8 @@ public class Grupo {
     public void setCompras(List<Compra> compras) {
         this.compras = compras;
     }
+
+    public String toString(){
+        return nombre;
+    }
 }

@@ -1,4 +1,4 @@
-package jazzyweb.tekila.main;
+package jazzyweb.tekila.grupos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,20 +14,20 @@ import android.widget.ListView;
 import java.util.List;
 
 import jazzyweb.tekila.R;
+import jazzyweb.tekila.compras.SelectUsuariosYCantidadAdapter;
 import jazzyweb.tekila.model.Usuario;
-import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 
 
 /**
  * A simple {@link android.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SelectUsuariosYCantidadDialogFragment.OnFragmentInteractionListener} interface
+ * {@link jazzyweb.tekila.grupos.SelectUsuariosDialogFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SelectUsuariosYCantidadDialogFragment#newInstance} factory method to
+ * Use the {@link jazzyweb.tekila.grupos.SelectUsuariosDialogFragment#newInstance} factory method to
  * create an instance of this fragment.
  *
  */
-public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
+public class SelectUsuariosDialogFragment extends DialogFragment {
 
     private String title;
     OnUsuariosSelectedChangeListener mCallback;
@@ -56,18 +56,18 @@ public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
      *
      * @return A new instance of fragment SelectUsuariosYCantidadDialogFragment.
      */
-    public static SelectUsuariosYCantidadDialogFragment newInstance(String title,
+    public static SelectUsuariosDialogFragment newInstance(String title,
                                                                     OnUsuariosSelectedChangeListener callback,
                                                                     SelectUsuariosYCantidadAdapter adapter
                                                                     ) {
-        SelectUsuariosYCantidadDialogFragment fragment = new SelectUsuariosYCantidadDialogFragment();
+        SelectUsuariosDialogFragment fragment = new SelectUsuariosDialogFragment();
         fragment.setTitle(title);
         fragment.setmCallback(callback);
         fragment.setAdapter(adapter);
 
         return fragment;
     }
-    public SelectUsuariosYCantidadDialogFragment() {
+    public SelectUsuariosDialogFragment() {
         // Required empty public constructor
     }
 
@@ -89,14 +89,14 @@ public class SelectUsuariosYCantidadDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         mCallback.onUsuariosSelectedChange(adapter.getUsuariosSeleccionados());
 
-                        SelectUsuariosYCantidadDialogFragment.this.dismiss();
+                        SelectUsuariosDialogFragment.this.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.action_cancelar, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         mCallback.resetUsuariosSeleccionados();
 
-                        SelectUsuariosYCantidadDialogFragment.this.dismiss();
+                        SelectUsuariosDialogFragment.this.dismiss();
                     }
                 });
 

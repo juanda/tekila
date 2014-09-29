@@ -13,7 +13,6 @@ import java.util.List;
 import jazzyweb.tekila.R;
 import jazzyweb.tekila.db.ModelManager;
 import jazzyweb.tekila.model.Usuario;
-import jazzyweb.tekila.widget.UsuariosResumenAdapter;
 
 
 /**

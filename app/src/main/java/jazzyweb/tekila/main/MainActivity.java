@@ -2,17 +2,31 @@ package jazzyweb.tekila.main;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+
+import java.util.List;
 
 import jazzyweb.tekila.R;
+import jazzyweb.tekila.compras.AddOrEditCompraActivity;
+import jazzyweb.tekila.compras.ComprasFragment;
 import jazzyweb.tekila.db.LoadTestData;
-import jazzyweb.tekila.grupos.GruposActivity;
-import jazzyweb.tekila.usuarios.UsuariosActivity;
+import jazzyweb.tekila.db.ModelManager;
+import jazzyweb.tekila.grupos.GrupoActivity;
+import jazzyweb.tekila.grupos.GrupoAdapter;
+import jazzyweb.tekila.model.Grupo;
+import jazzyweb.tekila.usuarios.UsuarioActivity;
 
 
 public class MainActivity extends Activity {
@@ -22,12 +36,21 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        idGrupo = Long.valueOf(1);
+//        Bundle b = getIntent().getExtras();
+//        idGrupo = b.getLong("idGrupo", 0);
+        idGrupo = getIdGrupo();
 
         setContentView(R.layout.activity_main);
 
         final ActionBar tabBar = getActionBar();
         tabBar.setNavigationMode(tabBar.NAVIGATION_MODE_TABS);
+
+        Grupo grupo = getGrupo(idGrupo);
+        if(grupo == null){
+            tabBar.setTitle(getResources().getString(R.string.app_name));
+        }else{
+            tabBar.setTitle(getResources().getString(R.string.app_name) + "-" + grupo.getNombre());
+        }
 
         ComprasFragment comprasFragment = ComprasFragment.newInstance(idGrupo);
         ResumenFragment resumenFragment = ResumenFragment.newInstance(idGrupo);
@@ -70,10 +93,22 @@ public class MainActivity extends Activity {
             case R.id.action_usuarios:
                 startUsuariosActivity();
                 return true;
+            case R.id.action_cambiar_grupo:
+                showDialogCambiarDeGrupo();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void showDialogCambiarDeGrupo(){
+
+        ChoiceGrupoDialogFragment choiceGrupoFragment =
+                ChoiceGrupoDialogFragment.newInstance(getResources().getString(R.string.label_selecciona_grupo));
+
+        choiceGrupoFragment.show(getFragmentManager(), "choiceGrupo");
+    }
+
 
     private void startAddOrEditCompraActivity(Long idGrupo){
         Intent intent = new Intent(this, AddOrEditCompraActivity.class);
@@ -84,7 +119,7 @@ public class MainActivity extends Activity {
     }
 
     private void startUsuariosActivity(){
-        Intent intent = new Intent(this, UsuariosActivity.class);
+        Intent intent = new Intent(this, UsuarioActivity.class);
         Bundle b = new Bundle();
         b.putLong("idGrupo", idGrupo);
         intent.putExtras(b);
@@ -92,7 +127,7 @@ public class MainActivity extends Activity {
     }
 
     private void startGruposActivity(){
-        Intent intent = new Intent(this, GruposActivity.class);
+        Intent intent = new Intent(this, GrupoActivity.class);
         Bundle b = new Bundle();
         b.putLong("idGrupo", idGrupo);
         intent.putExtras(b);
@@ -121,5 +156,35 @@ public class MainActivity extends Activity {
             if (null != mFragment)
                 ft.remove(mFragment);
         }
+    }
+
+    private Long getIdGrupo(){
+
+        ModelManager modelManager = new ModelManager(this);
+        List<Grupo> grupos = modelManager.getGrupos();
+
+        Long idGrupo = Long.valueOf(0);
+
+        if(grupos.size() != 0){ // Si existe algún grupo
+            SharedPreferences settings = getPreferences(0); // Pillalo de las preferencias
+            idGrupo = settings.getLong("idGrupo", 0); // Si no hay aún preferencias id = 0
+            Grupo grupoSeleccionado = modelManager.getGrupo(idGrupo);
+            if(idGrupo == 0 || grupoSeleccionado == null){
+                idGrupo = grupos.get(0).getId();
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putLong("idGrupo", idGrupo);
+                editor.commit();
+            }
+        }
+
+        return idGrupo;
+    }
+
+    private Grupo getGrupo(Long idGrupo){
+        ModelManager modelManager = new ModelManager(this);
+
+        Grupo grupo = modelManager.getGrupo(idGrupo);
+
+        return  grupo;
     }
 }

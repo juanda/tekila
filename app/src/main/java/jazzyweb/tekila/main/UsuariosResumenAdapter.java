@@ -1,4 +1,4 @@
-package jazzyweb.tekila.widget;
+package jazzyweb.tekila.main;
 
 
 import android.content.Context;

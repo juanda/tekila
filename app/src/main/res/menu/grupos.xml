@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="jazzyweb.tekila.grupos.GruposActivity" >
+    tools:context="jazzyweb.tekila.grupos.GrupoActivity" >
 
     <item android:id="@+id/action_cancel_grupos"
         android:title="@string/action_cancelar"

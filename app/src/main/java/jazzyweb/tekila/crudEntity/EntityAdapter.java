@@ -1,4 +1,4 @@
-package jazzyweb.tekila.widget;
+package jazzyweb.tekila.crudEntity;
 
 
 import android.content.Context;
@@ -12,12 +12,11 @@ import java.util.List;
 
 import jazzyweb.tekila.R;
 import jazzyweb.tekila.model.Grupo;
-import jazzyweb.tekila.model.Usuario;
 
-public class GruposAdapter extends ArrayAdapter<Grupo>{
+public class EntityAdapter extends ArrayAdapter<Grupo>{
 
 
-    public GruposAdapter(Context context, int resource, List<Grupo> grupos) {
+    public EntityAdapter(Context context, int resource, List<Grupo> grupos) {
         super(context, resource, grupos);
     }
 

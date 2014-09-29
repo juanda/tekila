@@ -1,4 +1,4 @@
-package jazzyweb.tekila.main;
+package jazzyweb.tekila.compras;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -22,12 +22,11 @@ import java.util.Locale;
 
 import jazzyweb.tekila.R;
 import jazzyweb.tekila.db.ModelManager;
+import jazzyweb.tekila.main.MainActivity;
 import jazzyweb.tekila.model.Compra;
 import jazzyweb.tekila.model.Pago;
 import jazzyweb.tekila.model.Participacion;
 import jazzyweb.tekila.model.Usuario;
-import jazzyweb.tekila.widget.ParticipantesAdapter;
-import jazzyweb.tekila.widget.SelectUsuariosYCantidadAdapter;
 
 public class AddOrEditCompraActivity extends Activity {
 
@@ -47,8 +46,6 @@ public class AddOrEditCompraActivity extends Activity {
     private TextView lblTotalCompra;
     private TextView lblDate;
     private TextView lblTime;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
