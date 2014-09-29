@@ -26,6 +26,9 @@ public class GruposActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grupos);
 
+        Bundle b = getIntent().getExtras();
+        idGrupo = b.getLong("idGrupo");
+
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -43,7 +46,8 @@ public class GruposActivity extends ListActivity {
                 Grupo grupo = (Grupo) adapterView.getItemAtPosition(i);
                 Intent intent = new Intent(GruposActivity.this, AddOrEditGrupoActivity.class);
                 Bundle b = new Bundle();
-                b.putLong("idGrupo", grupo.getId());
+                b.putLong("idGrupo", idGrupo);
+                b.putLong("idGrupoToEdit", grupo.getId());
                 intent.putExtras(b);
                 startActivity(intent);
             }
@@ -67,7 +71,7 @@ public class GruposActivity extends ListActivity {
 
         switch (id){
             case R.id.action_add_grupo:
-                showAddOrEditGrupoActivity(null);
+                showAddOrEditGrupoActivity(Long.valueOf(0));
                 return true;
             case R.id.action_cancel_grupos:
                 returnToMain();
@@ -77,23 +81,19 @@ public class GruposActivity extends ListActivity {
         }
     }
 
-    private void showAddOrEditGrupoActivity(Long idGrupo){
+    private void showAddOrEditGrupoActivity(Long idGrupoToEdit){
         Intent intent = new Intent(this, AddOrEditGrupoActivity.class);
-        if(idGrupo != null){
-            Bundle b = new Bundle();
-            b.putLong("idGrupo", idGrupo);
-            intent.putExtras(b);
-        }
+        Bundle b = new Bundle();
+        b.putLong("idGrupo", idGrupo);
+        b.putLong("idGrupoToEdit", idGrupoToEdit);
+        intent.putExtras(b);
         startActivity(intent);
     }
     private void returnToMain(){
         Intent intent = new Intent(this, MainActivity.class);
-        if(idGrupo != null){
-            Bundle b = new Bundle();
-            b.putLong("idGrupo", idGrupo );
-            intent.putExtras(b);
-        }
-
+        Bundle b = new Bundle();
+        b.putLong("idGrupo", idGrupo );
+        intent.putExtras(b);
         startActivity(intent);
     }
 }

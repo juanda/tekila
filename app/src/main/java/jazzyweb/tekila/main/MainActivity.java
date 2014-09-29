@@ -85,11 +85,17 @@ public class MainActivity extends Activity {
 
     private void startUsuariosActivity(){
         Intent intent = new Intent(this, UsuariosActivity.class);
+        Bundle b = new Bundle();
+        b.putLong("idGrupo", idGrupo);
+        intent.putExtras(b);
         startActivity(intent);
     }
 
     private void startGruposActivity(){
         Intent intent = new Intent(this, GruposActivity.class);
+        Bundle b = new Bundle();
+        b.putLong("idGrupo", idGrupo);
+        intent.putExtras(b);
         startActivity(intent);
     }
 
